@@ -41,8 +41,8 @@ function Profile(props) {
                             <div className="e-avatar e-avatar-circle">
                                 <img src={ProfilePicture} alt="JW" />
                             </div>
-                            <div className="e-profile-editor">
-                                <div className="e-profile-inner-editor">
+                            <div className="e-profile-editor" >
+                                <div className="e-profile-inner-editor" onClick={props.onProfileEdit}>
                                     <div></div>
                                     <div></div>
                                     <div></div>

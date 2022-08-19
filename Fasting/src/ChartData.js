@@ -55,7 +55,9 @@ let weightChartPrimaryXAxis = {
 // }
 
     return (
-        <ChartComponent id='charts' 
+        <ChartComponent 
+                    className="e-fasting-chart"
+                    id='charts' 
                     chartArea={chartArea} 
                     width={chartWidth} 
                     primaryXAxis={weightChartPrimaryXAxis} 

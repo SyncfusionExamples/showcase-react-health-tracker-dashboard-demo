@@ -66,6 +66,7 @@ function Activities(props) {
     let dropDownInstance;
     let chartInstance;
 
+
     return (
         <div>
         {props.isSmallDevice && 
