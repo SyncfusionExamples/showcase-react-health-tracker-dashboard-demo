@@ -95,7 +95,7 @@ function Diet(props) {
                                                         <div className="e-recom-meals-value">{props.breakFastRecom}<span
                                                             className="e-card-cal-unit">kcal</span>
                                                         </div>
-                                                        <ButtonComponent class="e-add-menu-btn e-breakfast-add-btn">ADD MENU</ButtonComponent>
+                                                        <ButtonComponent class="e-add-menu-btn e-breakfast-add-btn" onClick={props.addBtnClick}>ADD MENU</ButtonComponent>
                                                     </div>
                                                 }
                                             </div>
@@ -131,7 +131,7 @@ function Diet(props) {
                                                         <div className="e-recom-meals-text">Recommended</div>
                                                         <div className="e-recom-meals-value"> {props.snack1Recom} <span className="e-card-cal-unit">kcal</span>
                                                         </div>
-                                                        <ButtonComponent className="e-add-menu-btn e-snack1-add-btn">ADD MENU</ButtonComponent>
+                                                        <ButtonComponent className="e-add-menu-btn e-snack1-add-btn" onClick={props.addBtnClick}>ADD MENU</ButtonComponent>
                                                     </div>
                                                 }
                                             </div>
@@ -166,7 +166,7 @@ function Diet(props) {
                                                         <div className="e-recom-meals-text">Recommended</div>
                                                         <div className="e-recom-meals-value"> {props.lunchRecom} <span className="e-card-cal-unit">kcal</span>
                                                         </div>
-                                                        <ButtonComponent className="e-add-menu-btn e-lunch-add-btn">ADD MENU</ButtonComponent>
+                                                        <ButtonComponent className="e-add-menu-btn e-lunch-add-btn" onClick={props.addBtnClick}>ADD MENU</ButtonComponent>
                                                     </div>}
                                             </div>
                                         </div>
@@ -198,7 +198,7 @@ function Diet(props) {
                                                         <div className="e-recom-meals-text">Recommended</div>
                                                         <div className="e-recom-meals-value"> {props.snack2Recom} <span className="e-card-cal-unit">kcal</span>
                                                         </div>
-                                                        <ButtonComponent className="e-add-menu-btn e-snack2-add-btn">ADD MENU</ButtonComponent>
+                                                        <ButtonComponent className="e-add-menu-btn e-snack2-add-btn" onClick={props.addBtnClick}>ADD MENU</ButtonComponent>
                                                     </div>}
                                             </div>
                                         </div>
@@ -231,7 +231,7 @@ function Diet(props) {
                                                         <div className="e-recom-meals-text">Recommended</div>
                                                         <div className="e-recom-meals-value"> {props.dinnerRecom}  <span className="e-card-cal-unit">kcal</span>
                                                         </div>
-                                                        <ButtonComponent className="e-add-menu-btn e-dinner-add-btn" >ADD MENU</ButtonComponent>
+                                                        <ButtonComponent className="e-add-menu-btn e-dinner-add-btn" onClick={props.addBtnClick}>ADD MENU</ButtonComponent>
                                                     </div>}
                                             </div>
                                         </div>

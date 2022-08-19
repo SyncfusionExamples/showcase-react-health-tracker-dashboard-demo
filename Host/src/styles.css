@@ -9,7 +9,10 @@
 @import '../node_modules/@syncfusion/ej2-calendars/styles/tailwind.css';
 @import '../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind.css';
 @import '../node_modules/@syncfusion/ej2-grids/styles/tailwind.css';
+@import "../node_modules/@syncfusion/ej2-react-buttons/styles/tailwind.css";
+@import "../node_modules/@syncfusion/ej2-react-popups/styles/tailwind.css";
 @import "../node_modules/@syncfusion/ej2-react-grids/styles/tailwind.css";
+@import "../node_modules/@syncfusion/ej2-react-calendars/styles/tailwind.css";
 
 @font-face {
   font-family: 'icomoon';
