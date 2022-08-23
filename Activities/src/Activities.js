@@ -10,9 +10,6 @@ const Profile = React.lazy(() =>
     import('Profile/Profile')
 )
 
-// var masterData = [];
-// var initialUpdate = true;
-
 function Activities(props) {
     var theme = 'Tailwind';
     let chartArea = {

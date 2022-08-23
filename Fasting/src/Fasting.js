@@ -8,14 +8,6 @@ const Profile = React.lazy(() =>
 )
 
 function Fasting(props) {
-
-    // function changeClick(){
-    //     console.log("CHnaged click");
-    // }
-    let changeTimeBtnText = "CHANGE TIME";
-    // function modifyFasting() {
-    //     <FastingDialog></FastingDialog>
-    // }
     return (
         <div className="e-dashboardlayout-container e-fasting-dashboardlayout-container">
             <div className="col-md-9 e-fasting-gauge-container  e-dashboard-content">
@@ -28,7 +20,7 @@ function Fasting(props) {
                                     <div className="e-fasting-panel-header-text">Fasting</div>
                                 </div>
                                 <div className="e-panel-content">
-                                    <CircularGuage circularGuage={props.circularGuage}></CircularGuage>
+                                    <CircularGuage circularGuage={props.circularGuage} fastingGaugeLoaded={props.fastingGaugeLoaded}></CircularGuage>
                                     <div className="e-fasting-label-container">
                                         <div>Started Fasting</div>
                                         <div>End Fasting</div>
@@ -71,9 +63,6 @@ function Fasting(props) {
                         </div>
                     </div>
                 </div>
-                {/* <div>
-                <div onClick={changeClick}>Change CLick</div>
-            </div> */}
                 <div className="col-md-12 col-sm-12 col-xs-12">
                     <div id="fasting-chart-panel-id" className="e-panel e-fasting-chart-panel">
                         <div className="e-panel-container">
@@ -81,7 +70,7 @@ function Fasting(props) {
                                 <div className="e-weight-chart-header-text">Weight Journey</div>
                             </div>
                             <div className="e-panel-content">
-                                <ChartData weightChartData = {props.weightChartData}></ChartData>
+                                <ChartData weightChartData={props.weightChartData} chartCreated={props.chartCreated}></ChartData>
                             </div>
                         </div>
                     </div>

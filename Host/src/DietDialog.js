@@ -7,7 +7,6 @@ function DietDialog(props) {
     let animationSettings = { effect: 'Zoom' }
     let currentMenu = props.currentMenu;
     let today = new Date();
-    let hidden = false;
     let dateEnable = false;
     let menuDialogInstance;
     let isDevice = Browser.isDevice;
@@ -19,7 +18,7 @@ function DietDialog(props) {
     let dlgPosition = { X: 'center', Y: 'center' };
     function getSelectCurrentMenu(currentmenu, index) {
         return (
-            <div key={index} className="e-card e-menu-card e-card-select" onClick={props.onMenuCardSelect}>
+            <div key={index} className="e-card e-menu-card e-card-select">
                 <div className="e-card-content">
                     <div className="e-menu-div">{currentmenu.item}</div>
                 </div>
@@ -29,7 +28,7 @@ function DietDialog(props) {
 
     function getCurrentMenu(currentmenu, index) {
         return (
-            <div key={index} className="e-card e-menu-card" onClick={props.onMenuCardSelect}>
+            <div key={index} className="e-card e-menu-card">
                 <div className="e-card-content">
                     <div className="e-menu-div">{currentmenu.item}</div>
                 </div>
@@ -37,42 +36,34 @@ function DietDialog(props) {
         )
     }
 
-    function quantityPlusClick() {
-        console.log("quantityPlusClick clicked");
-    }
+    let currenSelectedText = [];
 
-    function finalButton() {
-        console.log("Final Button");
-    }
-
-    function beforeOpen() {
-        // if(!props.hidden){
-        //     this.hide();
-        // }
-    }
-
-    // function loaded() {
-    //     if(menuDialogInstance) {
-    //         menuDialogInstance.refresh();
-    //     }
-    // }
     return (
-
         <DialogComponent className="e-add-menu-dialog"
             visible={props.hidden}
             header={props.currentMenuHeader}
             animationSettings={animationSettings}
             showCloseIcon={showCloseIcon}
-            beforeOpen={beforeOpen}
             target={target}
             width={Dialogwidth}
             ref={menudialog => menuDialogInstance = menudialog}
             buttons={props.dlgButtons}
+            open={props.dialogOpen}
+            close={props.dialogClose}
             position={dlgPosition}
             isModal="true">
             <div className="e-select-menu-label">Select Menu</div>
-            {(currentMenu && currentMenu.isAdded) && <div className="e-current-menu-container">{currentMenu.map(getSelectCurrentMenu)}</div>}
-            {(currentMenu && !currentMenu.isAdded) && <div className="e-current-menu-container">{currentMenu.map(getCurrentMenu)}</div>}
+            <div className="e-current-menu-container">
+                {currentMenu && currentMenu.map(function (element, index) {
+                    if (element.isAdded) {
+                        currenSelectedText.push(getSelectCurrentMenu(element, index))
+                    }
+                    else if (!element.isAdded) {
+                        currenSelectedText.push(getCurrentMenu(element, index))
+                    }
+                })}
+                {currenSelectedText}
+            </div>
             <div className="e-quantity-label-container">
                 <div className="e-quantity-label">Quantity</div>
                 <div className="e-total-label">Total kcal</div>
@@ -81,9 +72,9 @@ function DietDialog(props) {
             <div className="e-quantity-value-container">
                 <div className="e-quantity-container">
                     <div className="e-quantity-value">
-                        <div className="e-quantity-minus icon-minus" onClick={props.quantityMinusClick}></div>
-                        <div className=" e-quantity-count">{props.currentQuantity}</div>
-                        <div className="e-quantity-plus icon-plus" onClick={props.quantityPlusClick}></div>
+                        <div className="e-quantity-minus icon-minus"></div>
+                        <div className="e-quantity-count">{props.currentQuantity}</div>
+                        <div className="e-quantity-plus icon-plus"></div>
                     </div>
                 </div>
                 <div className="e-quantity-total-container">
@@ -108,5 +99,4 @@ function DietDialog(props) {
         </DialogComponent>
     )
 }
-
 export default DietDialog;
