@@ -9,6 +9,9 @@ const Profile = React.lazy(() =>
 
 function Diet(props) {
 
+    console.log("diet props");
+    console.log(props);
+
     let innerStyle = false;
     if (props.innerWidth < 450) {
         innerStyle = true;

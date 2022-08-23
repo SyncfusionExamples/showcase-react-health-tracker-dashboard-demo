@@ -4,8 +4,7 @@ import { DialogComponent } from '@syncfusion/ej2-react-popups';
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
 
 function FastingDialog(props) {
-
-    var diff=16;
+    var diff = 16;
     var [difference, setDifference] = useState({
         diff: diff
     })
@@ -25,21 +24,9 @@ function FastingDialog(props) {
         diff = Math.floor(((dateEndInstance.value) - (dateStartInstance.value)) / (1000 * 60 * 60));
         setDifference(() => {
             return {
-               diff : diff
+                diff: diff
             }
         })
-    }
-
-    function changeClick() {
-        console.log("changing click")
-    }
-
-    function fastingCancelBtnClick() {
-
-    }
-
-    function fastingDlgBtnClick() {
-
     }
 
     function dialogOpen() {
@@ -47,10 +34,12 @@ function FastingDialog(props) {
     }
 
     function fastingOverlayClick() {
-
+        if (dialogInstance) {
+            dialogInstance.hide();
+        }
     }
     return (
-        <DialogComponent 
+        <DialogComponent
             className="e-add-fasting-dialog"
             header={fastingDialogeader}
             visible={props.hidden}
@@ -70,7 +59,7 @@ function FastingDialog(props) {
             </div>
             <div className="e-fast-end-label">End Time</div>
             <div className="e-fast-end-date">
-                <DateTimePickerComponent value={props.countDownDate} min={props.minimumDate} max={props.maximumDate} change={props.onFastEndDateChange} ref={ datetime => dateEndInstance = datetime} onChange={onfastChange}></DateTimePickerComponent>
+                <DateTimePickerComponent value={props.countDownDate} min={props.minimumDate} max={props.maximumDate} change={props.onFastEndDateChange} ref={datetime => dateEndInstance = datetime} onChange={onfastChange}></DateTimePickerComponent>
             </div>
             <div className="e-fast-total-label">Total Hours</div>
             <div className="e-fast-total-value">{difference.diff} h</div>
