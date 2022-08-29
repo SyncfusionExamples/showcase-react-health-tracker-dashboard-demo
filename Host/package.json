@@ -40,6 +40,7 @@
     "@syncfusion/ej2-react-lineargauge": "^20.2.38",
     "@syncfusion/ej2-react-navigations": "^20.2.39",
     "@syncfusion/ej2-react-popups": "^20.2.43",
+    "file-loader": "^6.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }

@@ -36,6 +36,10 @@ module.exports = {
           loader: "babel-loader",
         },
       },
+      {
+        test: /\.(gif|svg|jpg|png)$/,
+        loader: "file-loader",
+      }
     ],
   },
 

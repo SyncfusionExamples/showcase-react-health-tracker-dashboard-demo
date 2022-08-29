@@ -1,5 +1,9 @@
 import React from 'react';
 import HeartRate from './assets/Profile/Heart-1.svg';
+import HeartRateBg from './assets/Profile/01.svg';
+import StepsBg from './assets/Profile/02.svg';
+import CaloriesBg from './assets/Profile/03.svg';
+import SleepBg from './assets/Profile/04.svg';
 import { Browser } from '@syncfusion/ej2-base';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
@@ -11,7 +15,6 @@ const Profile = React.lazy(() =>
 )
 
 function Activities(props) {
-    var theme = 'Tailwind';
     let chartArea = {
         border: {
             width: 0,
@@ -66,14 +69,14 @@ function Activities(props) {
 
     return (
         <div>
-        {props.isSmallDevice && 
+        {/* {props.isSmallDevice && 
         <div  className="e-tab-header-mobile-icon-container">
         <div className="e-tab-header-icon-div">
           <span className="e-tab-header-icon icon-Logo"></span>
         </div>
         <div className="e-tab-title">GO<span>FIT</span></div>
         </div>}
-        {props.isSmallDevice && <div className="separator-div"></div>}
+        {props.isSmallDevice && <div className="separator-div"></div>} */}
         <div className="e-dashboardlayout-container  e-activity-dashboardlayout-container">
             <div className="col-md-9 e-dashboard-content">
                 <div className="col-md-12 col-sm-12">
@@ -86,7 +89,7 @@ function Activities(props) {
                                 </div>
                             </div>
                             <div className="e-panel-content e-activity-card-container">
-                                <div tabIndex={0} className="e-card e-heart-rate-card">
+                                <div tabIndex={0} className="e-card e-heart-rate-card" style={{backgroundImage: "url(" + HeartRateBg + ")"}}>
                                     <div className="e-card-header" style={{ width: "100%" }}>
                                         <div className="e-card-header-image icon-Heart e-card-corner"></div>
                                         <div className="e-card-header-caption" style={{ width: "100%" }}>
@@ -100,7 +103,7 @@ function Activities(props) {
                                         <div className="e-progress-annotation"> <img src={HeartRate} alt="HeartRate" /></div>
                                     </div>
                                 </div>
-                                <div tabIndex={0} className="e-card e-steps-card">
+                                <div tabIndex={0} className="e-card e-steps-card" style={{backgroundImage: "url(" + StepsBg + ")"}}>
                                     <div className="e-card-header" style={{ width: "100%" }}>
                                         <div className="e-card-header-image icon-Steps e-card-corner"></div>
                                         <div className="e-card-header-caption">
@@ -112,7 +115,7 @@ function Activities(props) {
                                         <div className="e-activity-goal">6000</div>
                                     </div>
                                 </div>
-                                <div tabIndex={0} className="e-card e-calories-card">
+                                <div tabIndex={0} className="e-card e-calories-card" style={{backgroundImage: "url(" + CaloriesBg + ")"}}>
                                     <div className="e-card-header" style={{ width: "100%" }}>
                                         <div className="e-card-header-image icon-Calories e-card-corner"></div>
                                         <div className="e-card-header-caption">
@@ -126,7 +129,7 @@ function Activities(props) {
                                         <div className="e-activity-goal">{props.expectedCalories} kcal</div>
                                     </div>
                                 </div>
-                                <div tabIndex={0} className="e-card e-sleep-card">
+                                <div tabIndex={0} className="e-card e-sleep-card" style={{backgroundImage: "url(" + SleepBg + ")"}}>
                                     <div className="e-card-header" style={{ width: "100%" }}>
                                         <div className="e-card-header-image icon-Sleep e-card-corner"></div>
                                         <div className="e-card-header-caption">
@@ -160,7 +163,7 @@ function Activities(props) {
                                     primaryYAxis={primaryYAxis}
                                     height={activityChartHeight}
                                     legendSettings={legendSettings}
-                                    theme={theme}
+                                    theme={props.theme}
                                     tooltip={tooltip}
                                     crosshair={crosshair}
                                     legendClick={props.legendClick}
@@ -234,7 +237,7 @@ function Activities(props) {
             {!props.isSmallDevice &&
                   <div className="col-md-3">
                   <React.Suspense fallback="Loading">
-                      <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities = {props.todayActivities} profileStats = {props.profileStats} onProfileDateChange={props.onProfileDateChange}></Profile>
+                      <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities = {props.todayActivities} profileStats = {props.profileStats} onProfileDateChange={props.onProfileDateChange} onProfileEdit={props.onProfileEdit}></Profile>
                   </React.Suspense>
               </div>
             }

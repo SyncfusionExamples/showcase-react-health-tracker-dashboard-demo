@@ -72,13 +72,13 @@ function Profile(props) {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div className="profile-value">{profileStats.weight + ' ' + profileStats.weightMes}</div>
+                                            <div className="profile-value" id="profile-value-weight">{profileStats.weight + ' ' + profileStats.weightMes}</div>
                                         </td>
                                         <td>
-                                            <div className="profile-value">{profileStats.height + ' ' + profileStats.heightMes}</div>
+                                            <div className="profile-value" id="profile-value-height">{profileStats.height + ' ' + profileStats.heightMes}</div>
                                         </td>
                                         <td>
-                                            <div className="profile-value">{profileStats.goal + ' ' + profileStats.goalMes}</div>
+                                            <div className="profile-value" id="profile-value-goal">{profileStats.goal + ' ' + profileStats.goalMes}</div>
                                         </td>
                                     </tr>
                                 </tbody>

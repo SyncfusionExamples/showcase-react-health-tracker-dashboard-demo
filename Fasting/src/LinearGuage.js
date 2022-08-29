@@ -5,7 +5,6 @@ import { LinearGaugeComponent, Inject, Annotations } from '@syncfusion/ej2-react
 
 function LinearGuage(props) {
     let isDevice = Browser.isDevice;
-    let theme = 'Tailwind';
     let waterGaugeContainer = {
         width: 50,
         roundedCornerRadius: 35,
@@ -26,7 +25,7 @@ function LinearGuage(props) {
             annotations={props.waterGaugeAnnotation}
             centerX='10%'
             centerY='50%'
-            theme={theme}>
+            theme={props.theme}>
             <Inject services={[Annotations]} />
         </LinearGaugeComponent>
     )

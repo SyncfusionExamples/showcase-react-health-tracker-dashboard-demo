@@ -9,9 +9,6 @@ const Profile = React.lazy(() =>
 
 function Diet(props) {
 
-    console.log("diet props");
-    console.log(props);
-
     let innerStyle = false;
     if (props.innerWidth < 450) {
         innerStyle = true;
@@ -24,7 +21,6 @@ function Diet(props) {
         shapeHeight: 20, shapeWidth: 20
     };
     let pieTooltip = { enable: true };
-    let theme = 'Tailwind';
     let pieChartWidth = '100%';
     let pieChartHeight = isDevice ? '80%' : '80%';
     let center = isDevice ? { x: '50%', y: '50%' } : { x: '50%', y: '50%' };
@@ -52,14 +48,14 @@ function Diet(props) {
     }
     return (
         <div>
-            {props.isSmallDevice &&
+            {/* {props.isSmallDevice &&
                 <div className="e-tab-header-mobile-icon-container">
                     <div className="e-tab-header-icon-div">
                         <span className="e-tab-header-icon icon-Logo"></span>
                     </div>
                     <div className="e-tab-title">GO<span>FIT</span></div>
                 </div>}
-                {props.isSmallDevice && <div className="separator-div"></div>}
+                {props.isSmallDevice && <div className="separator-div"></div>} */}
                 <div className="e-dashboardlayout-container e-diet-dashboardlayout-container">
                     <div className="col-md-9 e-dashboard-content">
                         <div className="col-md-12 col-sm-12">
@@ -264,7 +260,7 @@ function Diet(props) {
                                     <div className="e-diet-chart-panel-container e-panel-content">
                                         <div className="e-chart-parent-div">
                                             <div className="e-pie-chart-container">
-                                                <AccumulationChartComponent id='pie-chart' legendSettings={pieLegendSettings} tooltip={pieTooltip} theme={theme}
+                                                <AccumulationChartComponent id='piecontainer' legendSettings={pieLegendSettings} tooltip={pieTooltip} theme={props.theme}
                                                     height={pieChartHeight} width={pieChartWidth} center={center} textRender={onTextRender}
                                                     enableSmartLabels="true">
                                                     <Inject services={[AccumulationLegend, PieSeries, AccumulationTooltip, AccumulationDataLabel]} />
@@ -403,7 +399,7 @@ function Diet(props) {
                     {!props.isSmallDevice &&
                         <div className="col-md-3">
                             <React.Suspense fallback="Loading">
-                                <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities={props.todayActivities} profileStats={props.profileStats} onProfileDateChange={props.onProfileDateChange}></Profile>
+                                <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities={props.todayActivities} profileStats={props.profileStats} onProfileDateChange={props.onProfileDateChange} onProfileEdit={props.onProfileEdit}></Profile>
                             </React.Suspense>
                         </div>}
                 </div>

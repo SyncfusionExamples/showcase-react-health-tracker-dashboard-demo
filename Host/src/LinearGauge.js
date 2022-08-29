@@ -1,9 +1,8 @@
 import React from "react";
 import { Browser } from '@syncfusion/ej2-base';
-import { LinearGaugeComponent, Inject, Annotations } from '@syncfusion/ej2-react-lineargauge';
+import { LinearGaugeComponent, Inject, Gradient } from '@syncfusion/ej2-react-lineargauge';
 
 function LinearGauge(props) {
-    let theme = 'Tailwind';
     let orientation = 'Vertical';
     let heightGaugeContainer = {
         width: 80,
@@ -23,8 +22,8 @@ function LinearGauge(props) {
         axes={props.heightGaugeAxes}
         width="100px"
         height="400px"
-        theme={theme}>
-        <Inject services={[Annotations]} />
+        theme={props.theme}>
+        <Inject services={[Gradient]} />
         </LinearGaugeComponent>
     )
 }
