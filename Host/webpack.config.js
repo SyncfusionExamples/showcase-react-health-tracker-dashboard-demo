@@ -5,6 +5,7 @@ const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
     publicPath: "http://localhost:8050/",
+    // publicPath: "https://npmci.syncfusion.com/react-conference/fitness-app/",
   },
 
   resolve: {
@@ -36,6 +37,10 @@ module.exports = {
           loader: "babel-loader",
         },
       },
+      {
+        test: /\.(gif|svg|jpg|png)$/,
+        loader: "file-loader",
+      }
     ],
   },
 
@@ -48,6 +53,11 @@ module.exports = {
         Profile: 'Profile@http://localhost:8052/remoteEntry.js',
         Diet: 'Diet@http://localhost:8053/remoteEntry.js',
         Fasting: 'Fasting@http://localhost:8054/remoteEntry.js'
+
+        // Activities: 'Activities@https://npmci.syncfusion.com/react-conference/fitness-app-activities/remoteEntry.js',
+        // Profile: 'Profile@https://npmci.syncfusion.com/react-conference/fitness-app-profile/remoteEntry.js',
+        // Diet: 'Diet@https://npmci.syncfusion.com/react-conference/fitness-app-diet/remoteEntry.js',
+        // Fasting: 'Fasting@https://npmci.syncfusion.com/react-conference/fitness-app-fasting/remoteEntry.js'
       },
       exposes: {},
       shared: {

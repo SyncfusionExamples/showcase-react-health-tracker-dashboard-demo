@@ -2549,9 +2549,9 @@ body.e-dark .e-calendar .e-content td.e-today span.e-day {
     margin-left: 18px;
   }
 
-  .e-profile-edit-dialog {
+  /* .e-profile-edit-dialog {
     max-height: fit-content !important;
-  }
+  } */
 
   .e-consumed,
   .e-burned {

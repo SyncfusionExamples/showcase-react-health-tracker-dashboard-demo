@@ -20,7 +20,7 @@ function Fasting(props) {
                                     <div className="e-fasting-panel-header-text">Fasting</div>
                                 </div>
                                 <div className="e-panel-content">
-                                    <CircularGuage circularGuage={props.circularGuage} fastingGaugeLoaded={props.fastingGaugeLoaded}></CircularGuage>
+                                    <CircularGuage circularGuage={props.circularGuage} fastingGaugeLoaded={props.fastingGaugeLoaded} theme={props.theme} cirucularGuageResized={props.cirucularGuageResized}></CircularGuage>
                                     <div className="e-fasting-label-container">
                                         <div>Started Fasting</div>
                                         <div>End Fasting</div>
@@ -44,7 +44,7 @@ function Fasting(props) {
                                     <div className="e-water-panel-header-text">Water</div>
                                 </div>
                                 <div className="e-panel-content">
-                                    <LinearGuage waterGaugeAnnotation={props.waterGaugeAnnotation} waterGaugeAxes={props.waterGaugeAxes}></LinearGuage>
+                                    <LinearGuage waterGaugeAnnotation={props.waterGaugeAnnotation} waterGaugeAxes={props.waterGaugeAxes} theme={props.theme}></LinearGuage>
                                     <div className="e-water-label-container">
                                         <div className="e-water-minus icon-minus" onClick={props.minusClick}></div>
                                         <div className="e-water-image icon-Water"></div>
@@ -70,7 +70,7 @@ function Fasting(props) {
                                 <div className="e-weight-chart-header-text">Weight Journey</div>
                             </div>
                             <div className="e-panel-content">
-                                <ChartData weightChartData={props.weightChartData} chartCreated={props.chartCreated}></ChartData>
+                                <ChartData weightChartData={props.weightChartData} theme={props.theme}></ChartData>
                             </div>
                         </div>
                     </div>
@@ -78,8 +78,8 @@ function Fasting(props) {
             </div>
             {!props.isSmallDevice &&
                 <div className="col-md-3">
-                    <React.Suspense fallback="Loading">
-                        <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities={props.todayActivities} profileStats={props.profileStats} onProfileDateChange={props.onProfileDateChange}></Profile>
+                    <React.Suspense fallback>
+                        <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities={props.todayActivities} profileStats={props.profileStats} onProfileDateChange={props.onProfileDateChange} onProfileEdit={props.onProfileEdit}></Profile>
                     </React.Suspense>
                 </div>}
         </div>

@@ -8,8 +8,7 @@ function Profile(props) {
     let activities = props.activities;
     let profileStats = props.profileStats;
     let maxDate = props.maxDate;
-
-    function getFullDetails(activity,index) {
+    function getFullDetails(activity, index) {
         let distance = activity.distance;
         return (
             <div key={index} tabIndex={0} className="e-card e-diet-card" >
@@ -21,8 +20,8 @@ function Profile(props) {
                                 {activity.amount ? (activity.amount + ' | ') : ''}
                                 {activity.duration ? (activity.duration + ' | ') : ''}
                                 {activity.distance ? (activity.distance + ' | ') : ''}
-                                { distance && <span className="e-activity-highlight">{activity.percentage}</span>}
-                                { !distance && <span className="e-meals-highlight">{activity.percentage}</span>}
+                                {distance && <span className="e-activity-highlight">{activity.percentage}</span>}
+                                {!distance && <span className="e-meals-highlight">{activity.percentage}</span>}
                             </div>
                             <div className="e-card-header-sub-title" style={{ float: "right" }}>{activity.time}</div>
                         </div>
@@ -32,7 +31,7 @@ function Profile(props) {
         )
     }
     return (
-       
+
         <div id="activity-profile-panel-id" className="e-panel e-activity-profile-panel">
             <div className="e-panel-container">
                 <div>
@@ -72,13 +71,13 @@ function Profile(props) {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div className="profile-value">{profileStats.weight + ' ' + profileStats.weightMes}</div>
+                                            <div className="profile-value" id="profile-value-weight">{profileStats.weight + ' ' + profileStats.weightMes}</div>
                                         </td>
                                         <td>
-                                            <div className="profile-value">{profileStats.height + ' ' + profileStats.heightMes}</div>
+                                            <div className="profile-value" id="profile-value-height">{profileStats.height + ' ' + profileStats.heightMes}</div>
                                         </td>
                                         <td>
-                                            <div className="profile-value">{profileStats.goal + ' ' + profileStats.goalMes}</div>
+                                            <div className="profile-value" id="profile-value-goal">{profileStats.goal + ' ' + profileStats.goalMes}</div>
                                         </td>
                                     </tr>
                                 </tbody>
