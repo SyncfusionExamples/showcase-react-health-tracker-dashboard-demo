@@ -20,18 +20,19 @@ const Diet = React.lazy(() =>
 const Fasting = React.lazy(() =>
     import('Fasting/Fasting')
 )
-
 var masterData = [];
-var initialUpdate = true;
 var getInitial = true;
-let activityChartWeekData = {};
-let activityChartMonthData = {};
 let pieData = [];
 let x;
 let isFastEnd = false;
 let countStartDate;
 let countDownDate;
 var isToday = true;
+var currentDinnerMenu = [];
+var currentSnack2Menu = [];
+var currentBreakFastMenu = [];
+var currentSnack1Menu = [];
+var currentLunchMenu = [];
 function Tab() {
     let innerWidth = window.innerWidth;
     let fastStartTime;
@@ -170,9 +171,7 @@ function Tab() {
     var expectedWaterAmount = 2400;
     var consumedWaterAmount = 600;
     var lastSelectItem = '';
-    var currentDinnerMenu = [];
     var currentDinnerCalories = 0;
-    var currentSnack2Menu = [];
     var currentSnack2Calories = 0;
     var isBreakFastMenuAdded = true;
     var isSnack1MenuAdded = true;
@@ -184,11 +183,8 @@ function Tab() {
     var currentSnack1MenuText;
     var currentSnack2MenuText;
     var currentDinnerMenuText;
-    var currentBreakFastMenu = [];
     var currentBreakFastCalories = 0;
-    var currentSnack1Menu = [];
     var currentSnack1Calories = 0;
-    var currentLunchMenu = [];
     var currentLunchCalories = 0;
     var currentTotalProteins = 0;
     var currentTotalFat = 0;
@@ -456,10 +452,10 @@ function Tab() {
         sleepInHours: getSleepInHours(sleepInMinutes),
         currentDropDownData: dropDownData,
         gridData: getData(),
-        chartDietData: getChartData('Diet'),
-        chartData: getChartData('Workout'),
-        activityChartWeekData: activityChartWeekData,
-        activityChartMonthData: activityChartMonthData,
+        activityChartWeeklyDietData: getChartData('Diet', 'Weekly'),
+        activityChartWeeklyWorkoutData: getChartData('Workout', 'Weekly'),
+        activityChartMonthDietData : getChartData('Diet', 'Monthly'),
+        activityChartMonthWorkoutData : getChartData('Workout', 'Monthly'),
         morningWalk: Math.round(Math.random() * (3000 - 1000) + 1000),
         eveningWalk: Math.round(Math.random() * (3000 - 1000) + 1000),
         breakfastWaterTaken: Math.round(Math.random() * (5 - 2) + 2),
@@ -582,11 +578,6 @@ function Tab() {
             if (i == 0) {
                 todaysWorkoutPercent = data['y'];
             }
-            if (value && value === 'Monthly') {
-                activityChartMonthData[action] = sampleData;
-            } else {
-                activityChartWeekData[action] = sampleData;
-            }
         }
         return sampleData;
     }
@@ -596,13 +587,8 @@ function Tab() {
     }
 
     function onDateChange(args) {
-        if (initialUpdate) {
-            initialUpdate = false;
             currentDate = args.value;
             updateComponents();
-            initialUpdate = true;
-        }
-
     }
 
     function updateConsumedCalories() {
@@ -755,10 +741,10 @@ function Tab() {
                     sleepInHours: getSleepInHours(sleepInMinutes),
                     currentDropDownData: state.currentDropDownData,
                     gridData: JSON.parse(JSON.stringify(state.gridData)),
-                    charDietData: JSON.parse(JSON.stringify(state.chartDietData)),
-                    chartData: JSON.parse(JSON.stringify(state.chartData)),
-                    activityChartMonthData: JSON.parse(JSON.stringify(activityChartMonthData)),
-                    activityChartWeekData: JSON.parse(JSON.stringify(activityChartWeekData)),
+                    activityChartWeeklyDietData: JSON.parse(JSON.stringify(state.activityChartWeeklyDietData)),
+                    activityChartWeeklyWorkoutData: JSON.parse(JSON.stringify(state.activityChartWeeklyWorkoutData)),
+                    activityChartMonthDietData : JSON.parse(JSON.stringify(state.activityChartMonthDietData)),
+                    activityChartMonthWorkoutData : JSON.parse(JSON.stringify(state.activityChartMonthWorkoutData)),
                     morningWalk: state.morningWalk,
                     eveningWalk: state.eveningWalk,
                     isToday: true,
@@ -998,10 +984,10 @@ function Tab() {
                 sleepInHours: getSleepInHours(data.activity.sleepInMinutes),
                 currentDropDownData: data.activity.currentDropDownData,
                 gridData: data.activity.gridData,
-                chartDietData: data.activity.charDietData,
-                chartData: data.activity.chartData,
-                activityChartMonthData: data.activity.activityChartMonthData,
-                activityChartWeekData: data.activity.activityChartWeekData,
+                activityChartWeeklyDietData: data.activity.activityChartWeeklyDietData,
+                activityChartWeeklyWorkoutData: data.activity.activityChartWeeklyWorkoutData,
+                activityChartMonthDietData : data.activity.activityChartMonthDietData,
+                activityChartMonthWorkoutData : data.activity.activityChartMonthWorkoutData,
                 morningWalk: data.activity.morningWalk,
                 eveningWalk: data.activity.eveningWalk,
                 breakfastWaterTaken: data.diet.breakfastWaterTaken,
@@ -1098,10 +1084,10 @@ function Tab() {
                         sleepInHours: getSleepInHours(sleepInMinutes),
                         currentDropDownData: state.currentDropDownData,
                         gridData: getData(),
-                        chartDietData: getChartData('Diet', state.currentDropDownData[0]),
-                        chartData: getChartData('Workout', state.currentDropDownData[0]),
-                        activityChartMonthData: activityChartMonthData,
-                        activityChartWeekData: activityChartWeekData,
+                        activityChartWeeklyDietData: getChartData('Diet', 'Weekly'),
+                        activityChartWeeklyWorkoutData: getChartData('Workout', 'Weekly'),
+                        activityChartMonthDietData : getChartData('Diet', 'Monthly'),
+                        activityChartMonthWorkoutData : getChartData('Workout', 'Monthly'),
                         morningWalk: morningWalk,
                         eveningWalk: eveningWalk,
                         isToday: false,
@@ -1155,6 +1141,7 @@ function Tab() {
                 masterData.push(data);
             }
             endFasting();
+            disableElements();
             let smallDevice = false;
             if (innerWidth <= 820) {
                 smallDevice = true;
@@ -1336,10 +1323,10 @@ function Tab() {
                     sleepInHours: getSleepInHours(data.activity.sleepInMinutes),
                     currentDropDownData: data.activity.currentDropDownData,
                     gridData: data.activity.gridData,
-                    chartDietData: data.activity.chartDietData,
-                    chartData: data.activity.chartData,
-                    activityChartMonthData: data.activity.activityChartMonthData,
-                    activityChartWeekData: data.activity.activityChartWeekData,
+                    activityChartWeeklyDietData: data.activity.activityChartWeeklyDietData,
+                    activityChartWeeklyWorkoutData: data.activity.activityChartWeeklyWorkoutData,
+                    activityChartMonthDietData : data.activity.activityChartMonthDietData,
+                    activityChartMonthWorkoutData : data.activity.activityChartMonthWorkoutData,
                     consumedCalories: data.diet.consumedCalories,
                     morningWalk: data.activity.morningWalk,
                     eveningWalk: data.activity.eveningWalk,
@@ -1404,7 +1391,6 @@ function Tab() {
             pieData = getPieChartData();
             getInitialData();
         }
-        disableElements();
     }
 
     function disableElements() {
@@ -1485,9 +1471,6 @@ function Tab() {
         sliderValue = hours.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + " : " + minutes.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + " : " + seconds.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
         let fastingGauge = document.getElementById('range-container') ? document.getElementById('range-container').ej2_instances[0] : undefined;
         if (distance > (countDownDate.getTime() - countStartDate.getTime()) || distance < 0 || isFastEnd) {
-            console.log("Resized" + ' ' + isFastEnd);
-            console.log("COunt start date" + ' ' + countStartDate);
-            console.log("COunt down date" + ' ' + countDownDate);
             endFasting();
         } else if (fastingGauge) {
             fastingGauge.axes[0].ranges[1].end = percent;
@@ -1575,11 +1558,20 @@ function Tab() {
         else {
             dropvalue = ['Weekly', 'Monthly'];
         }
+        let dropIndex;
+        for (let i = 0; i < masterData.length; i++) {
+            if (masterData[i].date === currentDate.toLocaleDateString()) {
+                dropIndex = i;
+                break;
+            }
+        }
         setState(prevState => {
             return {
                 ...prevState,
-                chartDietData: getChartData('Diet', this.value),
-                chartData: getChartData('Workout', this.value),
+                activityChartWeeklyDietData: masterData[dropIndex].activity.activityChartWeeklyDietData,
+                activityChartWeeklyWorkoutData: masterData[dropIndex].activity.activityChartWeeklyWorkoutData,
+                activityChartMonthDietData : masterData[dropIndex].activity.activityChartMonthDietData,
+                activityChartMonthWorkoutData : masterData[dropIndex].activity.activityChartMonthWorkoutData,
                 currentDropDownData: dropvalue,
                 hidden: false
             }
@@ -1599,12 +1591,8 @@ function Tab() {
     }
 
     function onProfileDateChange(args) {
-        if (initialUpdate) {
-            initialUpdate = false;
             currentDate = args.value;
             updateComponents();
-            initialUpdate = true;
-        }
     }
 
     function minusClick() {
@@ -1982,7 +1970,7 @@ function Tab() {
 
     const headerPlacement = Browser.isDevice ? 'Bottom' : 'Top';
     const headerText = [{ 'text': 'ACTIVITIES', iconCss: 'icon-Activities', iconPosition: 'top' }, { 'text': 'DIET', iconCss: 'icon-Diet', iconPosition: 'top' }, { 'text': 'FASTING', iconCss: 'icon-Fasting', iconPosition: 'top' }, { 'text': 'PROFILE', iconCss: 'icon-Profile', iconPosition: 'top' }];
-
+   
     function created() {
         let iconDiv = document.createElement('div');
         iconDiv.className = 'e-tab-header-icon-div';
@@ -2471,6 +2459,7 @@ function Tab() {
                 masterData[masterIndex].diet.dinnerMenu = currentDinnerMenu;
                 masterData[masterIndex].diet.dinnerText = currentDinnerMenuText;
                 masterData[masterIndex].diet.dinnerCalories = currentDinnerCalories;
+                masterData[masterIndex].diet.isDinnerMenuAdded = isDinnerMenuAdded;
                 masterData[masterIndex].diet.isDinnerAdded = isDinnerMenuAdded;
                 masterData[masterIndex].diet.proteins = currentTotalProteins;
                 masterData[masterIndex].diet.fat = currentTotalFat;
@@ -3197,6 +3186,12 @@ function Tab() {
         this.hide();
     }
 
+    function chartCreated() {
+        let datevalue = document.getElementsByClassName('e-datepicker')[0].ej2_instances[0].value;
+        isToday = datevalue.getDate() === new Date().getDate() && datevalue.getMonth() === new Date().getMonth() && datevalue.getFullYear() === new Date().getFullYear();
+        disableElements();
+    }
+
     function profileTab() {
         return (
             <div>
@@ -3214,6 +3209,17 @@ function Tab() {
         )
     }
     function contentActivities() {
+        let chartDietData = [];
+        let chartWorkoutData= [];
+        if(state.currentDropDownData[0] == 'Weekly') {
+            chartDietData = state.activityChartWeeklyDietData;
+            chartWorkoutData = state.activityChartWeeklyWorkoutData;
+        }
+        else if(state.currentDropDownData[0] == 'Monthly') {
+            chartDietData = state.activityChartMonthDietData;
+            chartWorkoutData = state.activityChartMonthWorkoutData;
+        }
+
         return (
             <React.Suspense fallback>
                 <ProfileDialog hidden={state.profileHidden}
@@ -3261,10 +3267,10 @@ function Tab() {
                     sleepInHours={state.sleepInHours}
                     dropDownData={state.currentDropDownData}
                     onDropDownChange={onDropDownChange}
-                    chartDietData={state.chartDietData}
+                    chartDietData={chartDietData}
                     legendClick={legendClick}
                     chartTooltipRender={chartTooltipRender}
-                    chartData={state.chartData}
+                    chartWorkoutData={chartWorkoutData}
                     gridData={state.gridData}
                     customiseCell={customiseCell}
                     todayActivities={state.todayActivities}
@@ -3365,6 +3371,7 @@ function Tab() {
                     minusClick={minusClick}
                     plusClick={plusClick}
                     modifyFasting={modifyFasting}
+                    chartCreated= {chartCreated}
                     changeTimeBtnText={state.changeTimeBtnText}
                     maxDate={maxDate}
                     circularGuage={state.circulargauge}

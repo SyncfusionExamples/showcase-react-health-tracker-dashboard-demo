@@ -171,7 +171,7 @@ function Activities(props) {
                                             width={'4'} >
                                         </SeriesDirective>
                                         <SeriesDirective
-                                            dataSource={props.chartData}
+                                            dataSource={props.chartWorkoutData}
                                             legendShape='Circle'
                                             type='Spline'
                                             fill="#F547A8"
@@ -189,7 +189,7 @@ function Activities(props) {
                                             yName="y" >
                                         </SeriesDirective>
                                         <SeriesDirective
-                                            dataSource={props.chartData}
+                                            dataSource={props.chartWorkoutData}
                                             type='SplineArea'
                                             fill='url(#gradient-activity-chart)'
                                             xName="x"

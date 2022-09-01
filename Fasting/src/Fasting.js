@@ -70,7 +70,7 @@ function Fasting(props) {
                                 <div className="e-weight-chart-header-text">Weight Journey</div>
                             </div>
                             <div className="e-panel-content">
-                                <ChartData weightChartData={props.weightChartData} theme={props.theme}></ChartData>
+                                <ChartData weightChartData={props.weightChartData} chartCreated={props.chartCreated} theme={props.theme}></ChartData>
                             </div>
                         </div>
                     </div>
