@@ -4,7 +4,6 @@ import { CircularGaugeComponent, AxesDirective, Gradient, AxisDirective, Inject,
 
 function CircularGuage(props) {
     let isDevice = Browser.isDevice;
-    let theme = 'Tailwind';
     let circularGaugeRadius = isDevice ? '100%' : '100%';
     let majorTicks = {
         height: 0,
@@ -23,7 +22,7 @@ function CircularGuage(props) {
         <div>
             <CircularGaugeComponent
                 id="range-container"
-                theme={theme}
+                theme={props.theme}
                 style={{ display: 'block' }}
                 width='100%'
                 height='300px'

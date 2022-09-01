@@ -5,6 +5,7 @@ const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
     publicPath: "http://localhost:8052/",
+    // publicPath: "https://npmci.syncfusion.com/react-conference/fitness-app-profile/",
   },
 
   resolve: {

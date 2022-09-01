@@ -34,7 +34,6 @@ function ChartData(props) {
     }
   };
   let activityChartHeight = '70%';
-  let theme = 'Tailwind';
   let weightChartTooltip = { enable: true };
   let weightChartMarker = { visible: true, height: 10, width: 10 };
 
@@ -43,12 +42,11 @@ function ChartData(props) {
       className="e-fasting-chart"
       id='charts'
       chartArea={chartArea}
-      loaded={props.chartCreated}
       width={chartWidth}
       primaryXAxis={weightChartPrimaryXAxis}
       primaryYAxis={weightChartPrimaryYAxis}
       height={activityChartHeight}
-      theme={theme}
+      theme={props.theme}
       tooltip={weightChartTooltip} >
       <Inject services={[SplineAreaSeries, SplineSeries, DateTime, Legend, Tooltip]} />
       <SeriesCollectionDirective>

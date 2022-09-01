@@ -12,6 +12,7 @@
 @import "../node_modules/@syncfusion/ej2-react-buttons/styles/tailwind.css";
 @import "../node_modules/@syncfusion/ej2-react-popups/styles/tailwind.css";
 @import "../node_modules/@syncfusion/ej2-react-grids/styles/tailwind.css";
+@import "../node_modules/@syncfusion/ej2-react-inputs/styles/tailwind.css";
 @import "../node_modules/@syncfusion/ej2-react-calendars/styles/tailwind.css";
 
 @font-face {
@@ -1929,6 +1930,8 @@ body {
 .e-profile-input {
   background-color: #F4F5F7 !important;
   border: none !important;
+  width: 65% !important;
+  margin-right: 40px;
 }
 
 .e-profile-input>input {
@@ -2706,6 +2709,10 @@ body.e-dark .e-calendar .e-content td.e-today span.e-day {
   overflow-x: hidden;
   width: 100%;
   padding-top: 20px;
+}
+
+.e-popup.e-popup-open.e-dialog {
+  max-height: 84% !important;
 }
 
 @media only screen and (max-width: 1200px) {

@@ -5,6 +5,7 @@ const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
     publicPath: "http://localhost:8053/",
+    // publicPath: "https://npmci.syncfusion.com/react-conference/fitness-app-diet/",
   },
 
   resolve: {
@@ -45,6 +46,7 @@ module.exports = {
       filename: "remoteEntry.js",
       remotes: {
         Profile:'Profile@http://localhost:8052/remoteEntry.js'
+        // Profile:'Profile@https://npmci.syncfusion.com/react-conference/fitness-app-profile/remoteEntry.js'
       },
       exposes: {
         './Diet':'./src/Diet'

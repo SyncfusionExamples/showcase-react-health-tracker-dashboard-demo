@@ -50,6 +50,7 @@ function DietDialog(props) {
             buttons={props.dlgButtons}
             open={props.dialogOpen}
             close={props.dialogClose}
+            overlayClick={props.dietOverLayCLick}
             position={dlgPosition}
             isModal="true">
             <div className="e-select-menu-label">Select Menu</div>

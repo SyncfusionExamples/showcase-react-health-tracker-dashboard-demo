@@ -29,10 +29,6 @@ function FastingDialog(props) {
         })
     }
 
-    function dialogOpen() {
-
-    }
-
     function fastingOverlayClick() {
         if (dialogInstance) {
             dialogInstance.hide();
@@ -51,7 +47,6 @@ function FastingDialog(props) {
             buttons={fastingDlgButtons}
             position={dlgPosition}
             isModal="true"
-            open={dialogOpen}
             overlayClick={fastingOverlayClick}>
             <div className="e-fast-start-label">Start Time</div>
             <div className="e-fast-start-date">
