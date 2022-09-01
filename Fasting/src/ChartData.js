@@ -42,6 +42,7 @@ function ChartData(props) {
       className="e-fasting-chart"
       id='charts'
       chartArea={chartArea}
+      loaded={props.chartCreated}
       width={chartWidth}
       primaryXAxis={weightChartPrimaryXAxis}
       primaryYAxis={weightChartPrimaryYAxis}
