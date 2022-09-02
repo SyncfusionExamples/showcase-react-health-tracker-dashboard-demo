@@ -241,19 +241,19 @@ function Tab() {
         },
         {
             zIndex: '1',
-            radius: '91%',
+            radius: '89%',
             angle: 350,
             content: '<div class="e-gauge-percent-img icon-Calories"></div>'
         },
         {
             zIndex: '1',
-            radius: '91%',
+            radius: '89%',
             angle: 60,
             content: '<div class="e-gauge-status-img icon-Diet"></div>'
         },
         {
             zIndex: '1',
-            radius: '91%',
+            radius: '89%',
             angle: 280,
             content: '<div class="e-gauge-status-img icon-Thunder"></div>'
         }] : [{
@@ -722,6 +722,7 @@ function Tab() {
 
     function getInitialData() {
         let data;
+        let activities = [];
         if (masterData.length === 0) {
             let now = new Date();
             let isToday = countStartDate.toDateString() == now.toDateString();
@@ -746,7 +747,6 @@ function Tab() {
                     activityChartMonthDietData : JSON.parse(JSON.stringify(state.activityChartMonthDietData)),
                     activityChartMonthWorkoutData : JSON.parse(JSON.stringify(state.activityChartMonthWorkoutData)),
                     morningWalk: state.morningWalk,
-                    eveningWalk: state.eveningWalk,
                     isToday: true,
                 },
                 diet: {
@@ -777,7 +777,6 @@ function Tab() {
                     breakfastWaterTaken: breakWater,
                     expectedWaterAmount: state.expectedWaterAmount,
                     lunchWaterTaken: lunchWater,
-                    eveningWaterTaken: state.eveningWaterTaken,
                     proteins: currentTotalProteins,
                     fat: currentTotalFat,
                     carbs: currentTotalCarbs,
@@ -796,6 +795,14 @@ function Tab() {
                 }
             };
             masterData.push(data);
+            activities = [
+                { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' },
+                { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' },
+                { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
+                { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
+                { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
+                { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
+            ];
         } else {
             countStartDate = masterData[0].fasting.countStartDate;
             countDownDate = masterData[0].fasting.countDownDate;
@@ -805,6 +812,46 @@ function Tab() {
             clearInterval(x);
             x = setInterval(intervalFn, 1000);
             data = masterData[0];
+            let actValue;
+            activities =[
+                { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' }
+            ]
+            if(data.diet.breakfastWaterTaken > 0) {
+                actValue = { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' }
+                activities.push(actValue);
+            }
+            if(data.diet.isBreakFastMenuAdded) {
+                actValue = { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
+                activities.push(actValue);
+            }
+            if(data.diet.isSnack1Added) {
+                actValue = { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
+                activities.push(actValue);
+            }
+            if(data.diet.lunchWaterTaken > 0) {
+                actValue = { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
+                activities.push(actValue);
+            }
+            if(data.diet.isLunchAdded) {
+                actValue = { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
+                activities.push(actValue);
+            }
+            if(data.diet.isSnack2MenuAdded) {
+                actValue = { name: 'Snack2', activity: 'Snack', amount: data.diet.snack2Text, percentage: ((data.diet.snack2Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '3:00 PM' },
+                activities.push(actValue);
+            }
+            if(data.diet.eveningWaterTaken) {
+                actValue = { name: 'Evening Water', activity: 'Water Taken', count: data.diet.eveningWaterTaken, amount: data.diet.eveningWaterTaken + ' Glasses', percentage: (((data.diet.eveningWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '4:00 PM' },
+                activities.push(actValue);
+            }
+            if(data.activity.eveningWalk ) {
+                actValue = { name: 'Evening Walk', activity: 'Evening Walk', duration: '30m', distance: (data.activity.eveningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.eveningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '5:30 PM' },
+                activities.push(actValue);
+            }
+            if(data.diet.isDinnerMenuAdded) {
+                actValue = { name: 'Dinner', activity: 'Dinner', amount: data.diet.dinnerText, percentage: ((data.diet.dinnerCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '8:00 PM' }
+                activities.push(actValue);
+            }  
         }
         let SmallDevice = false;
         if (innerWidth <= 820) {
@@ -966,14 +1013,6 @@ function Tab() {
                 ],
             },
         ];
-        let activities = [
-            { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' },
-            { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' },
-            { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
-            { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
-            { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
-            { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
-        ];
         setState((prevState) => {
             return {
                 ...prevState,
@@ -992,7 +1031,6 @@ function Tab() {
                 eveningWalk: data.activity.eveningWalk,
                 breakfastWaterTaken: data.diet.breakfastWaterTaken,
                 lunchWaterTaken: data.diet.lunchWaterTaken,
-                eveningWaterTaken: data.diet.eveningWaterTaken,
                 expectedWaterAmount: data.diet.expectedWaterAmount,
                 pieData: data.diet.pieData,
                 expectedCalories: data.diet.expectedCalories,

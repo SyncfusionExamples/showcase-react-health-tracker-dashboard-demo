@@ -21,6 +21,7 @@ function CircularGuage(props) {
     return (
         <div>
             <CircularGaugeComponent
+                className="e-fasting-gauge"
                 id="range-container"
                 theme={props.theme}
                 style={{ display: 'block' }}
