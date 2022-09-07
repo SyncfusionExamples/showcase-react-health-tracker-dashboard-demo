@@ -10,7 +10,7 @@ const Profile = React.lazy(() =>
 function Fasting(props) {
     return (
         <div className="e-dashboardlayout-container e-fasting-dashboardlayout-container">
-            <div className="col-md-9 e-fasting-gauge-container  e-dashboard-content">
+            <div className="col-md-9 e-fasting-gauge-container e-dashboard-content">
                 <div className="e-fasting-header">Fasting</div>
                 <div className="col-md-12 col-sm-12">
                     <div className="col-md-5 e-fasting-panel-container">
@@ -62,26 +62,27 @@ function Fasting(props) {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="col-md-12 col-sm-12 col-xs-12">
-                    <div id="fasting-chart-panel-id" className="e-panel e-fasting-chart-panel">
-                        <div className="e-panel-container">
-                            <div className="e-panel-header">
-                                <div className="e-weight-chart-header-text">Weight Journey</div>
-                            </div>
-                            <div className="e-panel-content">
-                                <ChartData weightChartData={props.weightChartData} chartCreated={props.chartCreated} theme={props.theme}></ChartData>
+                    </div>
+                    <div className="col-md-12 col-sm-12">
+                        <div id="fasting-chart-panel-id" className="e-panel e-fasting-chart-panel">
+                            <div className="e-panel-container">
+                                <div className="e-panel-header">
+                                    <div className="e-weight-chart-header-text">Weight Journey</div>
+                                </div>
+                                <div className="e-panel-content">
+                                    <ChartData weightChartData={props.weightChartData} chartCreated={props.chartCreated} theme={props.theme}></ChartData>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
             {!props.isSmallDevice &&
                 <div className="col-md-3">
                     <React.Suspense fallback>
                         <Profile currentDate={props.datePickerDate} maxDate={props.maxDate} activities={props.todayActivities} profileStats={props.profileStats} onProfileDateChange={props.onProfileDateChange} onProfileEdit={props.onProfileEdit}></Profile>
                     </React.Suspense>
-                </div>}
+                </div>
+            }
         </div>
     )
 }
