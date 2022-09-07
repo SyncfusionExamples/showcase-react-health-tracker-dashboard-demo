@@ -31,11 +31,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
-    "@syncfusion/ej2-react-calendars": "^20.2.43",
-    "@syncfusion/ej2-react-charts": "^20.2.40",
-    "@syncfusion/ej2-react-circulargauge": "^20.2.38",
-    "@syncfusion/ej2-react-lineargauge": "^20.2.38",
-    "@syncfusion/ej2-react-popups": "^20.2.43",
+    "@syncfusion/ej2-react-calendars": "*",
+    "@syncfusion/ej2-react-charts": "*",
+    "@syncfusion/ej2-react-circulargauge": "*",
+    "@syncfusion/ej2-react-lineargauge": "*",
+    "@syncfusion/ej2-react-popups": "*",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }

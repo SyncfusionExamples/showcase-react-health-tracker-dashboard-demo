@@ -37,6 +37,7 @@ function Tab() {
     let innerWidth = window.innerWidth;
     let fastStartTime;
     let fastEndTime;
+    let activities = [];
     let changeTimeBtnText = "CHANGE TIME";
     let sliderValue = "Completed";
     var sleepInMinutes = Math.round(Math.random() * (480 - 300) + 300);
@@ -280,158 +281,8 @@ function Tab() {
             content: '<div class="e-gauge-status-img icon-Thunder"></div>'
         }]
     }];
-    let waterGaugeAxes = [
-        {
-            minimum: 0,
-            maximum: 100,
-            line: {
-                width: 0,
-            },
-            labelStyle: {
-                font: {
-                    opacity: 0,
-                },
-            },
-            majorTicks: {
-                interval: 10,
-                color: '#3993F5',
-                offset: 5,
-            },
-            minorTicks: {
-                interval: 2,
-                color: '#3993F5',
-                offset: 5,
-            },
-            opposedPosition: true,
-            pointers: [
-                {
-                    value: Math.round((consumedWaterAmount / expectedWaterAmount) * 100),
-                    height: 50,
-                    width: 50,
-                    roundedCornerRadius: 35,
-                    type: 'Bar',
-                    color: '#61a9f7',
-                },
-                {
-                    value: 8,
-                    width: 5,
-                    height: 5,
-                    offset: -60,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 8 ? 1 : 0
-                },
-                {
-                    value: 15,
-                    width: 4,
-                    height: 4,
-                    offset: -80,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 15 ? 1 : 0
-                },
-                {
-                    value: 21,
-                    width: 7,
-                    height: 7,
-                    offset: -75,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 21 ? 1 : 0
-                },
-                {
-                    value: 27,
-                    width: 8,
-                    height: 8,
-                    offset: -65,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 27 ? 1 : 0
-                },
-                {
-                    value: 37,
-                    width: 4,
-                    height: 4,
-                    offset: isDevice ? -85 : -55,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 37 ? 1 : 0
-                },
-                {
-                    value: 42,
-                    width: 6,
-                    height: 6,
-                    offset: -75,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 42 ? 1 : 0
-                },
-                {
-                    value: 48,
-                    width: 8,
-                    height: 8,
-                    offset: isDevice ? -80 : -58,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 48 ? 1 : 0
-                },
-                {
-                    value: 56,
-                    width: 5,
-                    height: 5,
-                    offset: -72,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 56 ? 1 : 0
-                },
-                {
-                    value: 64,
-                    width: 6,
-                    height: 6,
-                    offset: -79,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 64 ? 1 : 0
-                },
-                {
-                    value: 72,
-                    width: 8,
-                    height: 8,
-                    offset: isDevice ? -85 : -55,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 72 ? 1 : 0
-                },
-                {
-                    value: 80,
-                    width: 5,
-                    height: 5,
-                    offset: -70,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 80 ? 1 : 0
-                },
-                {
-                    value: 86,
-                    width: 6,
-                    height: 6,
-                    offset: -77,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 86 ? 1 : 0
-                },
-                {
-                    value: 94,
-                    width: 8,
-                    height: 8,
-                    offset: isDevice ? -80 : -54,
-                    markerType: 'Circle',
-                    color: '#87CEFA',
-                    opacity: Math.round((consumedWaterAmount / expectedWaterAmount) * 100) > 94 ? 1 : 0
-                },
-            ],
-        },
-    ];
+
+    let waterGaugeAxes = [];
 
 
     let modifyHeaderTitle = "Change Your Weight";
@@ -443,62 +294,70 @@ function Tab() {
     let weightSlider;
     let lightRadio;
     let darkRadio;
-   
+    let countStartDateMonth;
+    let currentDateMonth;
+
+    if (getInitial) {
+        getInitial = false;
+        getInitialData();
+    }
+
     var [state, setState] = useState({
-        heartRate: Math.round(Math.random() * (100 - 70) + 70),
-        steps: Math.round(Math.random() * (3000 - 1000) + 1000),
-        consumedCalories: Math.round(Math.random() * (3000 - 1000) + 1000),
-        sleepInMinutes: sleepInMinutes,
-        sleepInHours: getSleepInHours(sleepInMinutes),
+        heartRate: masterData[0].activity.heartRate,
+        steps: masterData[0].activity.steps,
+        consumedCalories: masterData[0].diet.consumedCalories,
+        sleepInMinutes: masterData[0].activity.sleepInMinutes,
+        sleepInHours: masterData[0].activity.sleepInHours,
         currentDropDownData: dropDownData,
-        gridData: getData(),
-        activityChartWeeklyDietData: getChartData('Diet', 'Weekly'),
-        activityChartWeeklyWorkoutData: getChartData('Workout', 'Weekly'),
-        activityChartMonthDietData : getChartData('Diet', 'Monthly'),
-        activityChartMonthWorkoutData : getChartData('Workout', 'Monthly'),
-        morningWalk: Math.round(Math.random() * (3000 - 1000) + 1000),
-        eveningWalk: Math.round(Math.random() * (3000 - 1000) + 1000),
-        breakfastWaterTaken: Math.round(Math.random() * (5 - 2) + 2),
-        lunchWaterTaken: Math.round(Math.random() * (5 - 2) + 2),
-        eveningWaterTaken: Math.round(Math.random() * (5 - 2) + 2),
-        expectedWaterAmount: 2400,
-        expectedCalories: 3000,
-        todayActivities: [],
+        gridData: masterData[0].activity.gridData,
+        activityChartWeeklyDietData: masterData[0].activity.activityChartWeeklyDietData,
+        activityChartWeeklyWorkoutData: masterData[0].activity.activityChartWeeklyWorkoutData,
+        activityChartMonthDietData: masterData[0].activity.activityChartMonthDietData,
+        activityChartMonthWorkoutData: masterData[0].activity.activityChartMonthWorkoutData,
+        morningWalk: masterData[0].activity.morningWalk,
+        eveningWalk: masterData[0].activity.eveningWalk,
+        breakfastWaterTaken: masterData[0].diet.breakfastWaterTaken,
+        lunchWaterTaken: masterData[0].diet.lunchWaterTaken,
+        eveningWaterTaken: masterData[0].diet.eveningWaterTaken,
+        expectedWaterAmount: masterData[0].diet.expectedWaterAmount,
+        expectedWaterAmount: masterData[0].diet.expectedWaterAmount,
+        expectedCalories: masterData[0].diet.expectedCalories,
+        todayActivities: activities,
         datePickerDate: currentDate,
         currentDate: currentDate,
-        isSmallDevice: false,
-        pieData: pieData,
-        currentBreakFastMenuText: currentBreakFastMenuText,
-        currentBreakFastCalories: currentBreakFastCalories,
-        currentSnack1MenuText: currentSnack1MenuText,
-        currentSnack1Calories: currentSnack1Calories,
-        currentLunchMenuText: currentLunchMenuText,
-        currentLunchCalories: currentLunchCalories,
-        currentSnack2MenuText: currentSnack2MenuText,
-        currentSnack2Calories: currentSnack2Calories,
-        currentDinnerMenuText: currentDinnerMenuText,
-        currentDinnerCalories: currentDinnerCalories,
-        currentTotalProteins: currentTotalProteins,
-        currentTotalFat: currentTotalFat,
-        currentTotalCarbs: currentTotalCarbs,
-        currentTotalCalcium: currentTotalCalcium,
-        currentTotalSodium: currentTotalSodium,
-        currentTotalIron: currentTotalIron,
-        isBreakFastMenuAdded: isBreakFastMenuAdded,
-        isSnack1MenuAdded: isSnack1MenuAdded,
-        isLunchMenuAdded: isLunchMenuAdded,
-        isSnack2MenuAdded: isSnack2MenuAdded,
-        isDinnerMenuAdded: isDinnerMenuAdded,
-        consumedWaterCount: consumedWaterCount,
-        consumedWaterAmount: consumedWaterAmount,
-        burnedCalories: burnedCalories,
-        weightChartData: getWeightChartData(),
+        isSmallDevice: masterData[0].activity.isSmallDevice,
+        pieData: masterData[0].diet.pieData,
+        currentBreakFastMenuText: masterData[0].diet.breakFastText,
+        currentBreakFastCalories: masterData[0].diet.breakFastCalories,
+        currentSnack1MenuText: masterData[0].diet.snack1Text,
+        currentSnack1Calories: masterData[0].diet.snack1Calories,
+        currentLunchMenuText: masterData[0].diet.lunchText,
+        currentLunchCalories: masterData[0].diet.lunchCalories,
+        currentSnack2MenuText: masterData[0].diet.snack2Text,
+        currentSnack2Calories: masterData[0].diet.snack2Calories,
+        currentDinnerMenuText: masterData[0].diet.dinnerText,
+        currentDinnerCalories: masterData[0].diet.dinnerCalories,
+        currentTotalProteins: masterData[0].diet.proteins,
+        currentTotalFat: masterData[0].diet.fat,
+        currentTotalCarbs: masterData[0].diet.carbs,
+        currentTotalCalcium: masterData[0].diet.calcium,
+        currentTotalSodium: masterData[0].diet.sodium,
+        currentTotalIron: masterData[0].diet.iron,
+        isBreakFastMenuAdded: masterData[0].diet.isBreakFastMenuAdded,
+        isSnack1MenuAdded: masterData[0].diet.isSnack1Added,
+        isLunchMenuAdded: masterData[0].diet.isLunchAdded,
+        isSnack2MenuAdded: masterData[0].diet.isSnack2MenuAdded,
+        isDinnerMenuAdded: masterData[0].diet.isDinnerMenuAdded,
+        consumedWaterCount: masterData[0].fasting.consumedWaterCount,
+        consumedWaterAmount: masterData[0].fasting.consumedWaterAmount,
+        burnedCalories: masterData[0].diet.burnedCalories,
+        weightChartData: masterData[0].fasting.weightChartData,
         waterGaugeAnnotation: waterGaugeAnnotation,
         waterGaugeAxes: waterGaugeAxes,
-        fastStartTime: fastStartTime,
-        fastEndTime: fastEndTime,
-        countStartDate: countStartDate,
-        countDownDate: countDownDate,
+        fastStartTime: masterData[0].fasting.fastStartTime,
+        fastEndTime: masterData[0].fasting.fastEndTime,
+        countStartDate: masterData[0].fasting.countStartDate,
+        countDownDate: masterData[0].fasting.countDownDate,
         circulargauge: circulargauge,
         changeTimeBtnText: changeTimeBtnText,
         currentMenuHeader: currentMenuHeader,
@@ -519,37 +378,6 @@ function Tab() {
         profileHidden: false,
         isToday: true
     });
-
-    let countStartDateMonth;
-    let currentDateMonth;
-    if (getInitial) {
-        getInitial = false;
-        currentBreakFastMenu = [];
-        currentBreakFastCalories = 0;
-        currentBreakFastMenu = breakfastMenu.sort(() => Math.random() - Math.random()).slice(0, 3);
-        isBreakFastMenuAdded = true;
-        currentSnack1Menu = [];
-        currentSnack1Calories = 0;
-        currentSnack1Menu = snackMenu.sort(() => Math.random() - Math.random()).slice(0, 3);
-        isSnack1MenuAdded = true;
-        currentLunchMenu = [];
-        currentLunchCalories = 0;
-        currentLunchMenu = lunchMenu.sort(() => Math.random() - Math.random()).slice(0, 3);
-        isLunchMenuAdded = true;
-        updateConsumedCalories();
-        pieData = getPieChartData();
-        countStartDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(18, 0, 0, 0)) : new Date(new Date(new Date().setDate(new Date().getDate() - 1)).setHours(18, 0, 0, 0));
-        countStartDateMonth = countStartDate.getMonth();
-        currentDateMonth = new Date().getMonth();
-        if(countStartDateMonth == currentDateMonth) {
-            countDownDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(countStartDate.getHours() + 16, 0, 0, 0)) : new Date(new Date(new Date().setDate(countStartDate.getDate())).setHours(countStartDate.getHours() + 16, 0, 0, 0));
-        }
-        else {
-            countDownDate = new Date(new Date().setHours(10, 0, 0, 0));
-        }
-        x = setInterval(intervalFn, 1000);
-        getInitialData();
-    }
 
     function getWeightChartData() {
         let count = 12;
@@ -587,8 +415,8 @@ function Tab() {
     }
 
     function onDateChange(args) {
-            currentDate = args.value;
-            updateComponents();
+        currentDate = args.value;
+        updateComponents();
     }
 
     function updateConsumedCalories() {
@@ -599,20 +427,23 @@ function Tab() {
         currentTotalIron = 0;
         currentTotalSodium = 0;
         consumedCalories = 0;
-        currentBreakFastMenu = currentBreakFastMenu.length > 0 ? currentBreakFastMenu : state.currentBreakFastMenu;
-        currentSnack1Menu = currentSnack1Menu.length > 0 ? currentSnack1Menu : state.currentSnack1Menu;
-        currentLunchMenu = currentLunchMenu.length > 0 ? currentLunchMenu : state.currentLunchMenu;
-        isBreakFastMenuAdded = state.isBreakFastMenuAdded;
-        isSnack1MenuAdded = state.isSnack1MenuAdded;
-        isLunchMenuAdded = state.isLunchMenuAdded;
-        if (state.isSnack2MenuAdded) {
-            currentSnack2Menu = currentSnack2Menu.length > 0 ? currentSnack2Menu : state.currentSnack2Menu;
-            isSnack2MenuAdded = state.isSnack2MenuAdded;
+        if (state) {
+            currentBreakFastMenu = currentBreakFastMenu.length > 0 ? currentBreakFastMenu : state.currentBreakFastMenu;
+            currentSnack1Menu = currentSnack1Menu.length > 0 ? currentSnack1Menu : state.currentSnack1Menu;
+            currentLunchMenu = currentLunchMenu.length > 0 ? currentLunchMenu : state.currentLunchMenu;
+            isBreakFastMenuAdded = state.isBreakFastMenuAdded ? state.isBreakFastMenuAdded : isBreakFastMenuAdded;
+            isSnack1MenuAdded = state.isSnack1MenuAdded ? state.isSnack1MenuAdded : isSnack1MenuAdded;
+            isLunchMenuAdded = state.isLunchMenuAdded ? state.isLunchMenuAdded : isLunchMenuAdded;
+            if (state.isSnack2MenuAdded) {
+                currentSnack2Menu = currentSnack2Menu.length > 0 ? currentSnack2Menu : state.currentSnack2Menu;
+                isSnack2MenuAdded = state.isSnack2MenuAdded;
+            }
+            if (state.isDinnerMenuAdded) {
+                currentDinnerMenu = currentDinnerMenu.length > 0 ? currentDinnerMenu : state.currentDinnerMenu;
+                isDinnerMenuAdded = state.isDinnerMenuAdded;
+            }
         }
-        if (state.isDinnerMenuAdded) {
-            currentDinnerMenu = currentDinnerMenu.length > 0 ? currentDinnerMenu : state.currentDinnerMenu;
-            isDinnerMenuAdded = state.isDinnerMenuAdded;
-        }
+
         if (isBreakFastMenuAdded) {
             currentBreakFastMenuText = currentBreakFastMenu.map(function (elem) {
                 return elem.item;
@@ -722,44 +553,336 @@ function Tab() {
 
     function getInitialData() {
         let data;
-        let activities = [];
-        if (masterData.length === 0) {
+        getInitial = false;
+        currentBreakFastMenu = [];
+        currentBreakFastCalories = 0;
+        currentBreakFastMenu = breakfastMenu.sort(() => Math.random() - Math.random()).slice(0, 3);
+        isBreakFastMenuAdded = true;
+        currentSnack1Menu = [];
+        currentSnack1Calories = 0;
+        currentSnack1Menu = snackMenu.sort(() => Math.random() - Math.random()).slice(0, 3);
+        isSnack1MenuAdded = true;
+        currentLunchMenu = [];
+        currentLunchCalories = 0;
+        currentLunchMenu = lunchMenu.sort(() => Math.random() - Math.random()).slice(0, 3);
+        isLunchMenuAdded = true;
+        updateConsumedCalories();
+        pieData = getPieChartData();
+        sleepInMinutes = Math.round(Math.random() * (480 - 300) + 300);
+        countStartDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(18, 0, 0, 0)) : new Date(new Date(new Date().setDate(new Date().getDate() - 1)).setHours(18, 0, 0, 0));
+        countStartDateMonth = countStartDate.getMonth();
+        currentDateMonth = new Date().getMonth();
+        if (countStartDateMonth == currentDateMonth) {
+            countDownDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(countStartDate.getHours() + 16, 0, 0, 0)) : new Date(new Date(new Date().setDate(countStartDate.getDate())).setHours(countStartDate.getHours() + 16, 0, 0, 0));
+        }
+        else {
+            countDownDate = new Date(new Date().setHours(10, 0, 0, 0));
+        }
+        x = setInterval(intervalFn, 1000);
+        let SmallDevice = false;
+        if (innerWidth <= 820) {
+            SmallDevice = true;
+        }
+        let now = new Date();
+        let isToday = countStartDate.toDateString() == now.toDateString();
+        fastStartTime = (isToday ? 'Today ' : 'Yesterday ') + countStartDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        isToday = countDownDate.toDateString() == now.toDateString();
+        fastEndTime = (isToday ? 'Today ' : 'Tomorrow ') + countDownDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        let breakWater = Math.round(Math.random() * (5 - 2) + 2);
+        let lunchWater = Math.round(Math.random() * (5 - 2) + 2);
+        let consumedCount = breakWater + lunchWater;
+        let consumedAmount = consumedCount * 150;
+        data = {
+            date: currentDate.toLocaleDateString(),
+            activity: {
+                heartRate: Math.round(Math.random() * (100 - 70) + 70),
+                steps: Math.round(Math.random() * (3000 - 1000) + 1000),
+                sleepInMinutes: sleepInMinutes,
+                sleepInHours: getSleepInHours(sleepInMinutes),
+                currentDropDownData: dropDownData,
+                gridData: JSON.parse(JSON.stringify(getData())),
+                activityChartWeeklyDietData: JSON.parse(JSON.stringify(getChartData('Diet', 'Weekly'))),
+                activityChartWeeklyWorkoutData: JSON.parse(JSON.stringify(getChartData('Workout', 'Weekly'))),
+                activityChartMonthDietData: JSON.parse(JSON.stringify(getChartData('Diet', 'Monthly'))),
+                activityChartMonthWorkoutData: JSON.parse(JSON.stringify(getChartData('Workout', 'Monthly'))),
+                morningWalk: Math.round(Math.random() * (3000 - 1000) + 1000),
+                isSmallDevice: SmallDevice,
+                isToday: true,
+            },
+            diet: {
+                pieData: pieData,
+                expectedCalories: 3000,
+                breakFastMenu: JSON.parse(JSON.stringify(currentBreakFastMenu)),
+                breakFastCalories: currentBreakFastCalories,
+                breakFastText: currentBreakFastMenuText,
+                isBreakFastMenuAdded: isBreakFastMenuAdded,
+                snack1Menu: JSON.parse(JSON.stringify(currentSnack1Menu)),
+                snack1Calories: currentSnack1Calories,
+                snack1Text: currentSnack1MenuText,
+                isSnack1Added: isSnack1MenuAdded,
+                lunchMenu: JSON.parse(JSON.stringify(currentLunchMenu)),
+                lunchCalories: currentLunchCalories,
+                lunchText: currentLunchMenuText,
+                isLunchAdded: isLunchMenuAdded,
+                dinnerMenu: JSON.parse(JSON.stringify(currentDinnerMenu)),
+                dinnerCalories: currentDinnerCalories,
+                dinnerText: currentDinnerMenuText,
+                isDinnerMenuAdded: isDinnerMenuAdded,
+                snack2Menu: JSON.parse(JSON.stringify(currentSnack2Menu)),
+                snack2Calories: currentSnack2Calories,
+                snack2Text: currentSnack2MenuText,
+                isSnack2MenuAdded: isSnack2MenuAdded,
+                consumedCalories: consumedCalories,
+                burnedCalories: burnedCalories,
+                breakfastWaterTaken: breakWater,
+                expectedWaterAmount: 2400,
+                lunchWaterTaken: lunchWater,
+                proteins: currentTotalProteins,
+                fat: currentTotalFat,
+                carbs: currentTotalCarbs,
+                calcium: currentTotalCalcium,
+                sodium: currentTotalSodium,
+                iron: currentTotalIron,
+            },
+            fasting: {
+                consumedWaterCount: consumedCount,
+                consumedWaterAmount: consumedAmount,
+                fastStartTime: fastStartTime,
+                fastEndTime: fastEndTime,
+                countStartDate: countStartDate,
+                countDownDate: countDownDate,
+                weightChartData: getWeightChartData()
+            }
+        };
+        masterData.push(data);
+        activities = [
+            { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' },
+            { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' },
+            { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
+            { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
+            { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
+            { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
+        ];
+        let percent = Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100);
+        let closetIndex = closestIndex(percent);
+        let content = ['Poor', 'Good', 'Almost', 'Perfect!'];
+        waterGaugeAnnotation[closetIndex].content = '<div class="e-water-annotation-text e-highlight-text">' + content[closetIndex] + '</div>'
+        waterGaugeAxes = [
+            {
+                minimum: 0,
+                maximum: 100,
+                line: {
+                    width: 0,
+                },
+                labelStyle: {
+                    font: {
+                        opacity: 0,
+                    },
+                },
+                majorTicks: {
+                    interval: 10,
+                    color: '#3993F5',
+                    offset: 5,
+                },
+                minorTicks: {
+                    interval: 2,
+                    color: '#3993F5',
+                    offset: 5,
+                },
+                opposedPosition: true,
+                pointers: [
+                    {
+                        value: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100),
+                        height: 50,
+                        width: 50,
+                        roundedCornerRadius: 35,
+                        type: 'Bar',
+                        color: '#61a9f7',
+                    },
+                    {
+                        value: 8,
+                        width: 5,
+                        height: 5,
+                        offset: -60,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 8 ? 1 : 0
+                    },
+                    {
+                        value: 15,
+                        width: 4,
+                        height: 4,
+                        offset: -80,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 15 ? 1 : 0
+                    },
+                    {
+                        value: 21,
+                        width: 7,
+                        height: 7,
+                        offset: -75,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 21 ? 1 : 0
+                    },
+                    {
+                        value: 27,
+                        width: 8,
+                        height: 8,
+                        offset: -65,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 27 ? 1 : 0
+                    },
+                    {
+                        value: 37,
+                        width: 4,
+                        height: 4,
+                        offset: isDevice ? -85 : -55,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 37 ? 1 : 0
+                    },
+                    {
+                        value: 42,
+                        width: 6,
+                        height: 6,
+                        offset: -75,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 42 ? 1 : 0
+                    },
+                    {
+                        value: 48,
+                        width: 8,
+                        height: 8,
+                        offset: isDevice ? -80 : -58,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 48 ? 1 : 0
+                    },
+                    {
+                        value: 56,
+                        width: 5,
+                        height: 5,
+                        offset: -72,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 56 ? 1 : 0
+                    },
+                    {
+                        value: 64,
+                        width: 6,
+                        height: 6,
+                        offset: -79,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 64 ? 1 : 0
+                    },
+                    {
+                        value: 72,
+                        width: 8,
+                        height: 8,
+                        offset: isDevice ? -85 : -55,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 72 ? 1 : 0
+                    },
+                    {
+                        value: 80,
+                        width: 5,
+                        height: 5,
+                        offset: -70,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 80 ? 1 : 0
+                    },
+                    {
+                        value: 86,
+                        width: 6,
+                        height: 6,
+                        offset: -77,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 86 ? 1 : 0
+                    },
+                    {
+                        value: 94,
+                        width: 8,
+                        height: 8,
+                        offset: isDevice ? -80 : -54,
+                        markerType: 'Circle',
+                        color: '#87CEFA',
+                        opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 94 ? 1 : 0
+                    },
+                ],
+            },
+        ];
+    }
+
+    function updateComponents() {
+        let data;
+        let isExist = false;
+        let index = 0;
+        for (let i = 0; i < masterData.length; i++) {
+            if (masterData[i].date === currentDate.toLocaleDateString()) {
+                isExist = true;
+                index = i;
+                break;
+            }
+        }
+        if (isExist) {
+            data = masterData[index];
+        } else {
+            updateMenu();
+            let breakfastWaterTaken = Math.round(Math.random() * (5 - 2) + 2);
+            let lunchWaterTaken = Math.round(Math.random() * (5 - 2) + 2);
+            let eveningWaterTaken = Math.round(Math.random() * (5 - 2) + 2);
+            let morningWalk = Math.round(Math.random() * (3000 - 1000) + 1000);
+            let eveningWalk = Math.round(Math.random() * (3000 - 1000) + 1000);
+            let sleepInMinutes = Math.round(Math.random() * (480 - 300) + 300);
+            consumedWaterCount = breakfastWaterTaken + lunchWaterTaken + eveningWaterTaken;
+            consumedWaterAmount = consumedWaterCount * 150;
+            countStartDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(18, 0, 0, 0)) : new Date(new Date(new Date().setDate(new Date().getDate() - 1)).setHours(18, 0, 0, 0));
+            countDownDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(countStartDate.getHours() + 16, 0, 0, 0)) : new Date(new Date(new Date().setDate(countStartDate.getDate())).setHours(countStartDate.getHours() + 16, 0, 0, 0));
             let now = new Date();
             let isToday = countStartDate.toDateString() == now.toDateString();
             fastStartTime = (isToday ? 'Today ' : 'Yesterday ') + countStartDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
             isToday = countDownDate.toDateString() == now.toDateString();
             fastEndTime = (isToday ? 'Today ' : 'Tomorrow ') + countDownDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-            let breakWater = Math.round(Math.random() * (5 - 2) + 2);
-            let lunchWater = Math.round(Math.random() * (5 - 2) + 2);
-            let consumedCount = breakWater + lunchWater;
-            let consumedAmount = consumedCount * 150;
             data = {
-                date: state.currentDate.toLocaleDateString(),
+                date: currentDate.toLocaleDateString(),
                 activity: {
-                    heartRate: state.heartRate,
-                    steps: state.steps,
-                    sleepInMinutes: state.sleepInMinutes,
+                    steps: morningWalk + eveningWalk,
+                    heartRate: Math.round(Math.random() * (100 - 70) + 70),
+                    sleepInMinutes: Math.round(Math.random() * (480 - 300) + 300),
                     sleepInHours: getSleepInHours(sleepInMinutes),
                     currentDropDownData: state.currentDropDownData,
-                    gridData: JSON.parse(JSON.stringify(state.gridData)),
-                    activityChartWeeklyDietData: JSON.parse(JSON.stringify(state.activityChartWeeklyDietData)),
-                    activityChartWeeklyWorkoutData: JSON.parse(JSON.stringify(state.activityChartWeeklyWorkoutData)),
-                    activityChartMonthDietData : JSON.parse(JSON.stringify(state.activityChartMonthDietData)),
-                    activityChartMonthWorkoutData : JSON.parse(JSON.stringify(state.activityChartMonthWorkoutData)),
-                    morningWalk: state.morningWalk,
-                    isToday: true,
+                    gridData: getData(),
+                    activityChartWeeklyDietData: getChartData('Diet', 'Weekly'),
+                    activityChartWeeklyWorkoutData: getChartData('Workout', 'Weekly'),
+                    activityChartMonthDietData: getChartData('Diet', 'Monthly'),
+                    activityChartMonthWorkoutData: getChartData('Workout', 'Monthly'),
+                    morningWalk: morningWalk,
+                    eveningWalk: eveningWalk,
+                    isToday: false,
                 },
                 diet: {
                     pieData: pieData,
-                    expectedCalories: state.expectedCalories,
                     breakFastMenu: JSON.parse(JSON.stringify(currentBreakFastMenu)),
                     breakFastCalories: currentBreakFastCalories,
+                    expectedCalories: 3000,
                     breakFastText: currentBreakFastMenuText,
                     isBreakFastMenuAdded: isBreakFastMenuAdded,
                     snack1Menu: JSON.parse(JSON.stringify(currentSnack1Menu)),
                     snack1Calories: currentSnack1Calories,
                     snack1Text: currentSnack1MenuText,
                     isSnack1Added: isSnack1MenuAdded,
+                    snack2Menu: JSON.parse(JSON.stringify(currentSnack2Menu)),
+                    snack2Calories: currentSnack2Calories,
+                    snack2Text: currentSnack2MenuText,
+                    isSnack2Added: isSnack2MenuAdded,
                     lunchMenu: JSON.parse(JSON.stringify(currentLunchMenu)),
                     lunchCalories: currentLunchCalories,
                     lunchText: currentLunchMenuText,
@@ -767,16 +890,13 @@ function Tab() {
                     dinnerMenu: JSON.parse(JSON.stringify(currentDinnerMenu)),
                     dinnerCalories: currentDinnerCalories,
                     dinnerText: currentDinnerMenuText,
-                    isDinnerMenuAdded: isDinnerMenuAdded,
-                    snack2Menu: JSON.parse(JSON.stringify(currentSnack2Menu)),
-                    snack2Calories: currentSnack2Calories,
-                    snack2Text: currentSnack2MenuText,
-                    isSnack2MenuAdded: isSnack2MenuAdded,
+                    isDinnerAdded: isDinnerMenuAdded,
                     consumedCalories: consumedCalories,
-                    burnedCalories: state.burnedCalories,
-                    breakfastWaterTaken: breakWater,
-                    expectedWaterAmount: state.expectedWaterAmount,
-                    lunchWaterTaken: lunchWater,
+                    burnedCalories: burnedCalories,
+                    breakfastWaterTaken: breakfastWaterTaken,
+                    expectedWaterAmount: 2400,
+                    lunchWaterTaken: lunchWaterTaken,
+                    eveningWaterTaken: eveningWaterTaken,
                     proteins: currentTotalProteins,
                     fat: currentTotalFat,
                     carbs: currentTotalCarbs,
@@ -785,77 +905,22 @@ function Tab() {
                     iron: currentTotalIron,
                 },
                 fasting: {
-                    consumedWaterCount: consumedCount,
-                    consumedWaterAmount: consumedAmount,
-                    fastStartTime: fastStartTime,
-                    fastEndTime: fastEndTime,
+                    consumedWaterCount: consumedWaterCount,
+                    consumedWaterAmount: consumedWaterAmount,
                     countStartDate: countStartDate,
                     countDownDate: countDownDate,
-                    weightChartData: state.weightChartData
+                    fastStartTime: fastStartTime,
+                    fastEndTime: fastEndTime,
+                    weightChartData: getWeightChartData()
                 }
             };
             masterData.push(data);
-            activities = [
-                { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' },
-                { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' },
-                { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
-                { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
-                { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
-                { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
-            ];
-        } else {
-            countStartDate = masterData[0].fasting.countStartDate;
-            countDownDate = masterData[0].fasting.countDownDate;
-            fastStartTime = masterData[0].fasting.fastStartTime;
-            fastEndTime = masterData[0].fasting.fastEndTime;
-            isFastEnd = false;
-            clearInterval(x);
-            x = setInterval(intervalFn, 1000);
-            data = masterData[0];
-            let actValue;
-            activities =[
-                { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' }
-            ]
-            if(data.diet.breakfastWaterTaken > 0) {
-                actValue = { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' }
-                activities.push(actValue);
-            }
-            if(data.diet.isBreakFastMenuAdded) {
-                actValue = { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
-                activities.push(actValue);
-            }
-            if(data.diet.isSnack1Added) {
-                actValue = { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
-                activities.push(actValue);
-            }
-            if(data.diet.lunchWaterTaken > 0) {
-                actValue = { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
-                activities.push(actValue);
-            }
-            if(data.diet.isLunchAdded) {
-                actValue = { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
-                activities.push(actValue);
-            }
-            if(data.diet.isSnack2MenuAdded) {
-                actValue = { name: 'Snack2', activity: 'Snack', amount: data.diet.snack2Text, percentage: ((data.diet.snack2Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '3:00 PM' },
-                activities.push(actValue);
-            }
-            if(data.diet.eveningWaterTaken) {
-                actValue = { name: 'Evening Water', activity: 'Water Taken', count: data.diet.eveningWaterTaken, amount: data.diet.eveningWaterTaken + ' Glasses', percentage: (((data.diet.eveningWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '4:00 PM' },
-                activities.push(actValue);
-            }
-            if(data.activity.eveningWalk ) {
-                actValue = { name: 'Evening Walk', activity: 'Evening Walk', duration: '30m', distance: (data.activity.eveningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.eveningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '5:30 PM' },
-                activities.push(actValue);
-            }
-            if(data.diet.isDinnerMenuAdded) {
-                actValue = { name: 'Dinner', activity: 'Dinner', amount: data.diet.dinnerText, percentage: ((data.diet.dinnerCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '8:00 PM' }
-                activities.push(actValue);
-            }  
         }
-        let SmallDevice = false;
+        endFasting();
+        disableElements();
+        let smallDevice = false;
         if (innerWidth <= 820) {
-            SmallDevice = true;
+            smallDevice = true;
         }
         let percent = Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100);
         let closetIndex = closestIndex(percent);
@@ -1013,32 +1078,82 @@ function Tab() {
                 ],
             },
         ];
+        let actValue;
+        let updateActivities = [
+            { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' }
+        ]
+        if (data.diet.breakfastWaterTaken > 0) {
+            actValue = { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' }
+            updateActivities.push(actValue);
+        }
+        if (data.diet.isBreakFastMenuAdded) {
+            actValue = { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
+                updateActivities.push(actValue);
+        }
+        if (data.diet.isSnack1Added) {
+            actValue = { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((data.diet.snack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
+                updateActivities.push(actValue);
+        }
+        if (data.diet.lunchWaterTaken > 0) {
+            actValue = { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
+                updateActivities.push(actValue);
+        }
+        if (data.diet.isLunchAdded) {
+            actValue = { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
+                updateActivities.push(actValue);
+        }
+        if (data.diet.isSnack2Added) {
+            actValue = { name: 'Snack2', activity: 'Snack', amount: data.diet.snack2Text, percentage: ((data.diet.snack2Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '3:00 PM' },
+                updateActivities.push(actValue);
+        }
+        if (data.diet.eveningWaterTaken) {
+            actValue = { name: 'Evening Water', activity: 'Water Taken', count: data.diet.eveningWaterTaken, amount: data.diet.eveningWaterTaken + ' Glasses', percentage: (((data.diet.eveningWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '4:00 PM' },
+                updateActivities.push(actValue);
+        }
+        if (data.activity.eveningWalk) {
+            actValue = { name: 'Evening Walk', activity: 'Evening Walk', duration: '30m', distance: (data.activity.eveningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.eveningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '5:30 PM' },
+                updateActivities.push(actValue);
+        }
+        if (data.diet.isDinnerAdded) {
+            actValue = { name: 'Dinner', activity: 'Dinner', amount: data.diet.dinnerText, percentage: ((data.diet.dinnerCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '8:00 PM' }
+            updateActivities.push(actValue);
+        }
+        isToday = currentDate.getDate() === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear();
+        if (isToday) {
+            countStartDate = masterData[0].fasting.countStartDate;
+            countDownDate = masterData[0].fasting.countDownDate;
+            fastStartTime = masterData[0].fasting.fastStartTime;
+            fastEndTime = masterData[0].fasting.fastEndTime;
+            isFastEnd = false;
+            clearInterval(x);
+            x = setInterval(intervalFn, 1000);
+        }
         setState((prevState) => {
             return {
                 ...prevState,
                 heartRate: data.activity.heartRate,
                 steps: data.activity.steps,
-                consumedCalories: data.diet.consumedCalories,
                 sleepInMinutes: data.activity.sleep,
                 sleepInHours: getSleepInHours(data.activity.sleepInMinutes),
                 currentDropDownData: data.activity.currentDropDownData,
                 gridData: data.activity.gridData,
                 activityChartWeeklyDietData: data.activity.activityChartWeeklyDietData,
                 activityChartWeeklyWorkoutData: data.activity.activityChartWeeklyWorkoutData,
-                activityChartMonthDietData : data.activity.activityChartMonthDietData,
-                activityChartMonthWorkoutData : data.activity.activityChartMonthWorkoutData,
+                activityChartMonthDietData: data.activity.activityChartMonthDietData,
+                activityChartMonthWorkoutData: data.activity.activityChartMonthWorkoutData,
+                consumedCalories: data.diet.consumedCalories,
                 morningWalk: data.activity.morningWalk,
                 eveningWalk: data.activity.eveningWalk,
+                pieData: data.diet.pieData,
                 breakfastWaterTaken: data.diet.breakfastWaterTaken,
                 lunchWaterTaken: data.diet.lunchWaterTaken,
+                eveningWaterTaken: data.diet.eveningWaterTaken,
                 expectedWaterAmount: data.diet.expectedWaterAmount,
-                pieData: data.diet.pieData,
-                expectedCalories: data.diet.expectedCalories,
-                burnedCalories: data.diet.burnedCalories,
-                todayActivities: activities,
+                todayActivities: updateActivities,
                 datePickerDate: currentDate,
                 currentDate: currentDate,
-                isSmallDevice: SmallDevice,
+                expectedCalories: data.diet.expectedCalories,
+                isSmallDevice: smallDevice,
                 currentBreakFastMenuText: data.diet.breakFastText,
                 currentBreakFastCalories: data.diet.breakFastCalories,
                 currentSnack1MenuText: data.diet.snack1Text,
@@ -1055,380 +1170,31 @@ function Tab() {
                 currentTotalCalcium: data.diet.calcium,
                 currentTotalSodium: data.diet.sodium,
                 currentTotalIron: data.diet.iron,
+                burnedCalories: data.diet.burnedCalories,
                 isBreakFastMenuAdded: data.diet.isBreakFastMenuAdded,
                 isSnack1MenuAdded: data.diet.isSnack1Added,
                 isLunchMenuAdded: data.diet.isLunchAdded,
-                isDinnerMenuAdded: data.diet.isDinnerMenuAdded,
-                isSnack2MenuAdded: data.diet.isSnack2MenuAdded,
+                isDinnerMenuAdded: data.diet.isDinnerAdded,
+                isSnack2MenuAdded: data.diet.isSnack2Added,
                 consumedWaterCount: data.fasting.consumedWaterCount,
                 consumedWaterAmount: data.fasting.consumedWaterAmount,
                 weightChartData: data.fasting.weightChartData,
                 waterGaugeAxes: waterCalculatedGaugeAxes,
                 fastStartTime: data.fasting.fastStartTime,
                 fastEndTime: data.fasting.fastEndTime,
+                circulargauge: circulargauge,
                 countStartDate: data.fasting.countStartDate,
                 countDownDate: data.fasting.countDownDate,
-                circulargauge: circulargauge,
-                waterGaugeAnnotation: waterGaugeAnnotation,
                 currentBreakFastMenu: currentBreakFastMenu,
                 currentSnack1Menu: currentSnack1Menu,
                 currentSnack2Menu: currentSnack2Menu,
                 currentLunchMenu: currentLunchMenu,
                 currentDinnerMenu: currentDinnerMenu,
+                waterGaugeAnnotation: waterGaugeAnnotation,
                 isToday: data.activity.isToday,
                 hidden: false
             }
         })
-    }
-
-    function updateComponents() {
-        isToday = currentDate.getDate() === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear();
-        if (!isToday) {
-            let data;
-            let isExist = false;
-            let index = 0;
-            for (let i = 0; i < masterData.length; i++) {
-                if (masterData[i].date === currentDate.toLocaleDateString()) {
-                    isExist = true;
-                    index = i;
-                    break;
-                }
-            }
-            if (isExist) {
-                data = masterData[index];
-            } else {
-                updateMenu();
-                let breakfastWaterTaken = Math.round(Math.random() * (5 - 2) + 2);
-                let lunchWaterTaken = Math.round(Math.random() * (5 - 2) + 2);
-                let eveningWaterTaken = Math.round(Math.random() * (5 - 2) + 2);
-                let morningWalk = Math.round(Math.random() * (3000 - 1000) + 1000);
-                let eveningWalk = Math.round(Math.random() * (3000 - 1000) + 1000);
-                let sleepInMinutes = Math.round(Math.random() * (480 - 300) + 300);
-                consumedWaterCount = breakfastWaterTaken + lunchWaterTaken + eveningWaterTaken;
-                consumedWaterAmount = consumedWaterCount * 150;
-                countStartDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(18, 0, 0, 0)) : new Date(new Date(new Date().setDate(new Date().getDate() - 1)).setHours(18, 0, 0, 0));
-                countDownDate = new Date().getHours() >= 17 ? new Date(new Date().setHours(countStartDate.getHours() + 16, 0, 0, 0)) : new Date(new Date(new Date().setDate(countStartDate.getDate())).setHours(countStartDate.getHours() + 16, 0, 0, 0));
-                let now = new Date();
-                let isToday = countStartDate.toDateString() == now.toDateString();
-                fastStartTime = (isToday ? 'Today ' : 'Yesterday ') + countStartDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-                isToday = countDownDate.toDateString() == now.toDateString();
-                fastEndTime = (isToday ? 'Today ' : 'Tomorrow ') + countDownDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-                data = {
-                    date: currentDate.toLocaleDateString(),
-                    activity: {
-                        steps: morningWalk + eveningWalk,
-                        heartRate: Math.round(Math.random() * (100 - 70) + 70),
-                        sleepInMinutes: Math.round(Math.random() * (480 - 300) + 300),
-                        sleepInHours: getSleepInHours(sleepInMinutes),
-                        currentDropDownData: state.currentDropDownData,
-                        gridData: getData(),
-                        activityChartWeeklyDietData: getChartData('Diet', 'Weekly'),
-                        activityChartWeeklyWorkoutData: getChartData('Workout', 'Weekly'),
-                        activityChartMonthDietData : getChartData('Diet', 'Monthly'),
-                        activityChartMonthWorkoutData : getChartData('Workout', 'Monthly'),
-                        morningWalk: morningWalk,
-                        eveningWalk: eveningWalk,
-                        isToday: false,
-                    },
-                    diet: {
-                        pieData: pieData,
-                        breakFastMenu: JSON.parse(JSON.stringify(currentBreakFastMenu)),
-                        breakFastCalories: currentBreakFastCalories,
-                        expectedCalories: 3000,
-                        breakFastText: currentBreakFastMenuText,
-                        isBreakFastMenuAdded: isBreakFastMenuAdded,
-                        snack1Menu: JSON.parse(JSON.stringify(currentSnack1Menu)),
-                        snack1Calories: currentSnack1Calories,
-                        snack1Text: currentSnack1MenuText,
-                        isSnack1Added: isSnack1MenuAdded,
-                        snack2Menu: JSON.parse(JSON.stringify(currentSnack2Menu)),
-                        snack2Calories: currentSnack2Calories,
-                        snack2Text: currentSnack2MenuText,
-                        isSnack2Added: isSnack2MenuAdded,
-                        lunchMenu: JSON.parse(JSON.stringify(currentLunchMenu)),
-                        lunchCalories: currentLunchCalories,
-                        lunchText: currentLunchMenuText,
-                        isLunchAdded: isLunchMenuAdded,
-                        dinnerMenu: JSON.parse(JSON.stringify(currentDinnerMenu)),
-                        dinnerCalories: currentDinnerCalories,
-                        dinnerText: currentDinnerMenuText,
-                        isDinnerAdded: isDinnerMenuAdded,
-                        consumedCalories: consumedCalories,
-                        burnedCalories: burnedCalories,
-                        breakfastWaterTaken: breakfastWaterTaken,
-                        expectedWaterAmount: 2400,
-                        lunchWaterTaken: lunchWaterTaken,
-                        eveningWaterTaken: eveningWaterTaken,
-                        proteins: currentTotalProteins,
-                        fat: currentTotalFat,
-                        carbs: currentTotalCarbs,
-                        calcium: currentTotalCalcium,
-                        sodium: currentTotalSodium,
-                        iron: currentTotalIron,
-                    },
-                    fasting: {
-                        consumedWaterCount: consumedWaterCount,
-                        consumedWaterAmount: consumedWaterAmount,
-                        countStartDate: countStartDate,
-                        countDownDate: countDownDate,
-                        fastStartTime: fastStartTime,
-                        fastEndTime: fastEndTime,
-                        weightChartData: getWeightChartData()
-                    }
-                };
-                masterData.push(data);
-            }
-            endFasting();
-            disableElements();
-            let smallDevice = false;
-            if (innerWidth <= 820) {
-                smallDevice = true;
-            }
-            let percent = Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100);
-            let closetIndex = closestIndex(percent);
-            let content = ['Poor', 'Good', 'Almost', 'Perfect!'];
-            waterGaugeAnnotation[closetIndex].content = '<div class="e-water-annotation-text e-highlight-text">' + content[closetIndex] + '</div>'
-            let waterCalculatedGaugeAxes = [
-                {
-                    minimum: 0,
-                    maximum: 100,
-                    line: {
-                        width: 0,
-                    },
-                    labelStyle: {
-                        font: {
-                            opacity: 0,
-                        },
-                    },
-                    majorTicks: {
-                        interval: 10,
-                        color: '#3993F5',
-                        offset: 5,
-                    },
-                    minorTicks: {
-                        interval: 2,
-                        color: '#3993F5',
-                        offset: 5,
-                    },
-                    opposedPosition: true,
-                    pointers: [
-                        {
-                            value: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100),
-                            height: 50,
-                            width: 50,
-                            roundedCornerRadius: 35,
-                            type: 'Bar',
-                            color: '#61a9f7',
-                        },
-                        {
-                            value: 8,
-                            width: 5,
-                            height: 5,
-                            offset: -60,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 8 ? 1 : 0
-                        },
-                        {
-                            value: 15,
-                            width: 4,
-                            height: 4,
-                            offset: -80,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 15 ? 1 : 0
-                        },
-                        {
-                            value: 21,
-                            width: 7,
-                            height: 7,
-                            offset: -75,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 21 ? 1 : 0
-                        },
-                        {
-                            value: 27,
-                            width: 8,
-                            height: 8,
-                            offset: -65,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 27 ? 1 : 0
-                        },
-                        {
-                            value: 37,
-                            width: 4,
-                            height: 4,
-                            offset: isDevice ? -85 : -55,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 37 ? 1 : 0
-                        },
-                        {
-                            value: 42,
-                            width: 6,
-                            height: 6,
-                            offset: -75,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 42 ? 1 : 0
-                        },
-                        {
-                            value: 48,
-                            width: 8,
-                            height: 8,
-                            offset: isDevice ? -80 : -58,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 48 ? 1 : 0
-                        },
-                        {
-                            value: 56,
-                            width: 5,
-                            height: 5,
-                            offset: -72,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 56 ? 1 : 0
-                        },
-                        {
-                            value: 64,
-                            width: 6,
-                            height: 6,
-                            offset: -79,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 64 ? 1 : 0
-                        },
-                        {
-                            value: 72,
-                            width: 8,
-                            height: 8,
-                            offset: isDevice ? -85 : -55,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 72 ? 1 : 0
-                        },
-                        {
-                            value: 80,
-                            width: 5,
-                            height: 5,
-                            offset: -70,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 80 ? 1 : 0
-                        },
-                        {
-                            value: 86,
-                            width: 6,
-                            height: 6,
-                            offset: -77,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 86 ? 1 : 0
-                        },
-                        {
-                            value: 94,
-                            width: 8,
-                            height: 8,
-                            offset: isDevice ? -80 : -54,
-                            markerType: 'Circle',
-                            color: '#87CEFA',
-                            opacity: Math.round((data.fasting.consumedWaterAmount / data.diet.expectedWaterAmount) * 100) > 94 ? 1 : 0
-                        },
-                    ],
-                },
-            ];
-            let updateActivities = [
-                { name: 'Morning Walk', activity: 'Morning Walk', duration: '30m', distance: (data.activity.morningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.morningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:00 AM' },
-                { name: 'Breakfast Water', activity: 'Water Taken', count: data.diet.breakfastWaterTaken, amount: data.diet.breakfastWaterTaken + ' Glasses', percentage: (((data.diet.breakfastWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '7:40 AM' },
-                { name: 'Breakfast', activity: 'Breakfast', amount: data.diet.breakFastText, percentage: ((data.diet.breakFastCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '9:00 AM' },
-                { name: 'Snack1', activity: 'Snack', amount: data.diet.snack1Text, percentage: ((currentSnack1Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '11:00 AM' },
-                { name: 'Lunch Water', activity: 'Water Taken', count: data.diet.lunchWaterTaken, amount: data.diet.lunchWaterTaken + ' Glasses', percentage: (((data.diet.lunchWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '12:00 PM' },
-                { name: 'Lunch', activity: 'Lunch', amount: data.diet.lunchText, percentage: ((data.diet.lunchCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '1:00 PM' },
-                { name: 'Snack2', activity: 'Snack', amount: data.diet.snack2Text, percentage: ((data.diet.snack2Calories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '3:00 PM' },
-                { name: 'Evening Water', activity: 'Water Taken', count: data.diet.eveningWaterTaken, amount: data.diet.eveningWaterTaken + ' Glasses', percentage: (((data.diet.eveningWaterTaken * 150) / data.diet.expectedWaterAmount) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '4:00 PM' },
-                { name: 'Evening Walk', activity: 'Evening Walk', duration: '30m', distance: (data.activity.eveningWalk / 1312).toFixed(2).replace(/[.,]00$/, "") + 'km', percentage: ((data.activity.eveningWalk / 6000) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '5:30 PM' },
-                { name: 'Dinner', activity: 'Dinner', amount: data.diet.dinnerText, percentage: ((data.diet.dinnerCalories / data.diet.expectedCalories) * 100).toFixed(2).replace(/[.,]00$/, "") + '%', time: '8:00 PM' }
-            ];
-            setState((prevState) => {
-                return {
-                    ...prevState,
-                    heartRate: data.activity.heartRate,
-                    steps: data.activity.steps,
-                    sleepInMinutes: data.activity.sleep,
-                    sleepInHours: getSleepInHours(data.activity.sleepInMinutes),
-                    currentDropDownData: data.activity.currentDropDownData,
-                    gridData: data.activity.gridData,
-                    activityChartWeeklyDietData: data.activity.activityChartWeeklyDietData,
-                    activityChartWeeklyWorkoutData: data.activity.activityChartWeeklyWorkoutData,
-                    activityChartMonthDietData : data.activity.activityChartMonthDietData,
-                    activityChartMonthWorkoutData : data.activity.activityChartMonthWorkoutData,
-                    consumedCalories: data.diet.consumedCalories,
-                    morningWalk: data.activity.morningWalk,
-                    eveningWalk: data.activity.eveningWalk,
-                    pieData: data.diet.pieData,
-                    breakfastWaterTaken: data.diet.breakfastWaterTaken,
-                    lunchWaterTaken: data.diet.lunchWaterTaken,
-                    eveningWaterTaken: data.diet.eveningWaterTaken,
-                    expectedWaterAmount: data.diet.expectedWaterAmount,
-                    todayActivities: updateActivities,
-                    datePickerDate: currentDate,
-                    currentDate: currentDate,
-                    expectedCalories: data.diet.expectedCalories,
-                    isSmallDevice: smallDevice,
-                    currentBreakFastMenuText: data.diet.breakFastText,
-                    currentBreakFastCalories: data.diet.breakFastCalories,
-                    currentSnack1MenuText: data.diet.snack1Text,
-                    currentSnack1Calories: data.diet.snack1Calories,
-                    currentLunchMenuText: data.diet.lunchText,
-                    currentLunchCalories: data.diet.lunchCalories,
-                    currentSnack2MenuText: data.diet.snack2Text,
-                    currentSnack2Calories: data.diet.snack2Calories,
-                    currentDinnerMenuText: data.diet.dinnerText,
-                    currentDinnerCalories: data.diet.dinnerCalories,
-                    currentTotalProteins: data.diet.proteins,
-                    currentTotalFat: data.diet.fat,
-                    currentTotalCarbs: data.diet.carbs,
-                    currentTotalCalcium: data.diet.calcium,
-                    currentTotalSodium: data.diet.sodium,
-                    currentTotalIron: data.diet.iron,
-                    burnedCalories: data.diet.burnedCalories,
-                    isBreakFastMenuAdded: data.diet.isBreakFastMenuAdded,
-                    isSnack1MenuAdded: data.diet.isSnack1Added,
-                    isLunchMenuAdded: data.diet.isLunchAdded,
-                    isDinnerMenuAdded: data.diet.isDinnerAdded,
-                    isSnack2MenuAdded: data.diet.isSnack2Added,
-                    consumedWaterCount: data.fasting.consumedWaterCount,
-                    consumedWaterAmount: data.fasting.consumedWaterAmount,
-                    weightChartData: data.fasting.weightChartData,
-                    waterGaugeAxes: waterCalculatedGaugeAxes,
-                    fastStartTime: data.fasting.fastStartTime,
-                    fastEndTime: data.fasting.fastEndTime,
-                    circulargauge: circulargauge,
-                    countStartDate: data.fasting.countStartDate,
-                    countDownDate: data.fasting.countDownDate,
-                    currentBreakFastMenu: currentBreakFastMenu,
-                    currentSnack1Menu: currentSnack1Menu,
-                    currentSnack2Menu: currentSnack2Menu,
-                    currentLunchMenu: currentLunchMenu,
-                    currentDinnerMenu: currentDinnerMenu,
-                    waterGaugeAnnotation: waterGaugeAnnotation,
-                    isToday: data.activity.isToday,
-                    hidden: false
-                }
-            })
-        } else {
-            consumedCalories = 0;
-            isBreakFastMenuAdded = false;
-            isSnack1MenuAdded = false;
-            isLunchMenuAdded = false;
-            isSnack2MenuAdded = false;
-            isDinnerMenuAdded = false;
-            pieData = getPieChartData();
-            getInitialData();
-        }
     }
 
     function disableElements() {
@@ -1608,8 +1374,8 @@ function Tab() {
                 ...prevState,
                 activityChartWeeklyDietData: masterData[dropIndex].activity.activityChartWeeklyDietData,
                 activityChartWeeklyWorkoutData: masterData[dropIndex].activity.activityChartWeeklyWorkoutData,
-                activityChartMonthDietData : masterData[dropIndex].activity.activityChartMonthDietData,
-                activityChartMonthWorkoutData : masterData[dropIndex].activity.activityChartMonthWorkoutData,
+                activityChartMonthDietData: masterData[dropIndex].activity.activityChartMonthDietData,
+                activityChartMonthWorkoutData: masterData[dropIndex].activity.activityChartMonthWorkoutData,
                 currentDropDownData: dropvalue,
                 hidden: false
             }
@@ -1629,8 +1395,8 @@ function Tab() {
     }
 
     function onProfileDateChange(args) {
-            currentDate = args.value;
-            updateComponents();
+        currentDate = args.value;
+        updateComponents();
     }
 
     function minusClick() {
@@ -1799,6 +1565,32 @@ function Tab() {
                     opacity: Math.round((consWaterAmount / expectWaterAmount) * 100) > 94 ? 1 : 0
                 },
             ];
+            let masterDataExsist = false;
+            let masterIndex;
+            for (let i = 0; i < masterData.length; i++) {
+                if (masterData[i].date === state.currentDate.toLocaleDateString()) {
+                    masterIndex = i;
+                    masterDataExsist = true;
+                }
+            }
+            if (masterDataExsist) {
+                masterData[masterIndex].fasting.consumedWaterCount = consWaterCount;
+                masterData[masterIndex].fasting.consumedWaterAmount = consWaterAmount;
+                if (period === 'Breakfast Water') {
+                    masterData[masterIndex].diet.breakfastWaterTaken -= 1;
+                }
+                else if (period === 'Lunch Water') {
+                    masterData[masterIndex].diet.lunchWaterTaken -= 1;
+                }
+                else if (period === 'Evening Water') {
+                    if (masterData[masterIndex].diet.eveningWaterTaken) {
+                        masterData[masterIndex].diet.eveningWaterTaken -= 1;
+                    }
+                    else {
+                        masterData[masterIndex].diet.eveningWaterTaken = 1;
+                    }
+                }
+            }
             waterAxes[0].pointers = pointers;
             setState(prevState => {
                 return {
@@ -1975,6 +1767,32 @@ function Tab() {
             },
         ];
         waterAxes[0].pointers = pointers;
+        let masterDataExsist = false;
+        let masterIndex;
+        for (let i = 0; i < masterData.length; i++) {
+            if (masterData[i].date === state.currentDate.toLocaleDateString()) {
+                masterIndex = i;
+                masterDataExsist = true;
+            }
+        }
+        if (masterDataExsist) {
+            masterData[masterIndex].fasting.consumedWaterCount = consWaterCount;
+            masterData[masterIndex].fasting.consumedWaterAmount = consWaterAmount;
+            if (period === 'Breakfast Water') {
+                masterData[masterIndex].diet.breakfastWaterTaken += 1;
+            }
+            else if (period === 'Lunch Water') {
+                masterData[masterIndex].diet.lunchWaterTaken += 1;
+            }
+            else if (period === 'Evening Water') {
+                if (masterData[masterIndex].diet.eveningWaterTaken) {
+                    masterData[masterIndex].diet.eveningWaterTaken += 1;
+                }
+                else {
+                    masterData[masterIndex].diet.eveningWaterTaken = 1;
+                }
+            }
+        }
         if (state.consumedWaterCount < 20) {
             setState(prevState => {
                 return {
@@ -2008,7 +1826,7 @@ function Tab() {
 
     const headerPlacement = Browser.isDevice ? 'Bottom' : 'Top';
     const headerText = [{ 'text': 'ACTIVITIES', iconCss: 'icon-Activities', iconPosition: 'top' }, { 'text': 'DIET', iconCss: 'icon-Diet', iconPosition: 'top' }, { 'text': 'FASTING', iconCss: 'icon-Fasting', iconPosition: 'top' }, { 'text': 'PROFILE', iconCss: 'icon-Profile', iconPosition: 'top' }];
-   
+
     function created() {
         let iconDiv = document.createElement('div');
         iconDiv.className = 'e-tab-header-icon-div';
@@ -2027,6 +1845,7 @@ function Tab() {
         containerDiv.appendChild(titleDiv);
         this.element.querySelector('.e-tab-header').prepend(containerDiv)
     }
+    
 
     function tabSelecting(e) {
         if (e.isSwiped) {
@@ -2093,11 +1912,11 @@ function Tab() {
                 masterDataExsist = true;
             }
         }
-        if(masterDataExsist) {
+        if (masterDataExsist) {
             masterData[masterIndex].fasting.fastStartTime = fastStartTime;
             masterData[masterIndex].fasting.fastEndTime = fastEndTime;
             masterData[masterIndex].fasting.countStartDate = countStartDate;
-            masterData[masterIndex].fasting.countDownDate = countDownDate;  
+            masterData[masterIndex].fasting.countDownDate = countDownDate;
         }
         setState(prevState => {
             return {
@@ -3232,7 +3051,6 @@ function Tab() {
 
     function profileTab() {
         return (
-            <div>
                 <div className="e-dashboardlayout-container e-profile-dashboardlayout-container">
                     <React.Suspense fallback>
                         <Profile currentDate={state.datePickerDate}
@@ -3243,24 +3061,23 @@ function Tab() {
                             onProfileDateChange={onProfileDateChange}></Profile>
                     </React.Suspense>
                 </div>
-            </div>
         )
     }
     function contentActivities() {
         let chartDietData = [];
-        let chartWorkoutData= [];
-        if(state.currentDropDownData[0] == 'Weekly') {
+        let chartWorkoutData = [];
+        if (state.currentDropDownData[0] == 'Weekly') {
             chartDietData = state.activityChartWeeklyDietData;
             chartWorkoutData = state.activityChartWeeklyWorkoutData;
         }
-        else if(state.currentDropDownData[0] == 'Monthly') {
+        else if (state.currentDropDownData[0] == 'Monthly') {
             chartDietData = state.activityChartMonthDietData;
             chartWorkoutData = state.activityChartMonthWorkoutData;
         }
 
         return (
             <React.Suspense fallback>
-                <ProfileDialog hidden={state.profileHidden}
+                  <ProfileDialog hidden={state.profileHidden}
                     theme={state.theme}
                     profileStats={state.profileStats}
                     name={state.profileStats.name}
@@ -3400,7 +3217,7 @@ function Tab() {
                 <Fasting isSmallDevice={state.isSmallDevice}
                     theme={state.theme}
                     consumedWaterCount={state.consumedWaterCount}
-                    consumedWaterAmount={state.consumedWaterAmount} todayActivitiemenu
+                    consumedWaterAmount={state.consumedWaterAmount}
                     expectedWaterAmount={state.expectedWaterAmount}
                     weightChartData={state.weightChartData}
                     datePickerDate={state.datePickerDate}
@@ -3409,7 +3226,7 @@ function Tab() {
                     minusClick={minusClick}
                     plusClick={plusClick}
                     modifyFasting={modifyFasting}
-                    chartCreated= {chartCreated}
+                    chartCreated={chartCreated}
                     changeTimeBtnText={state.changeTimeBtnText}
                     maxDate={maxDate}
                     circularGuage={state.circulargauge}
