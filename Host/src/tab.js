@@ -281,10 +281,7 @@ function Tab() {
             content: '<div class="e-gauge-status-img icon-Thunder"></div>'
         }]
     }];
-
     let waterGaugeAxes = [];
-
-
     let modifyHeaderTitle = "Change Your Weight";
     let modifyBtnGroup = ['KG', 'LB'];
     let profileDialogInstance;
@@ -296,12 +293,10 @@ function Tab() {
     let darkRadio;
     let countStartDateMonth;
     let currentDateMonth;
-
     if (getInitial) {
         getInitial = false;
         getInitialData();
     }
-
     var [state, setState] = useState({
         heartRate: masterData[0].activity.heartRate,
         steps: masterData[0].activity.steps,
@@ -1210,9 +1205,6 @@ function Tab() {
             }
             if (document.querySelector('.e-water-plus')) {
                 (document.querySelector('.e-water-plus')).style.pointerEvents = 'none';
-            }
-            if (document.getElementsByClassName('e-circulargauge')[0]) {
-                endFasting();
             }
         } else {
             if (document.querySelector('.e-fast-time-btn')) {

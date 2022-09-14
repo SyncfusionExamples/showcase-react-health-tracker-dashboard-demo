@@ -2496,11 +2496,15 @@ body.e-dark .e-calendar .e-content td.e-today span.e-day {
   }
 
   .e-profile-panel,
-  .e-activity-profile-panel,
   .e-fasting-profile-panel,
   .e-diet-profile-panel {
     height: auto !important;
     margin-top: 24px !important;
+  }
+  
+  .e-activity-profile-panel {
+    height: auto !important;
+    margin-top: 0 !important;
   }
 
   .e-profile-panel .e-panel-container,
