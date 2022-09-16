@@ -2732,3 +2732,7 @@ body.e-dark .e-calendar .e-content td.e-today span.e-day {
     margin-bottom: 0 !important;
   }
 }
+
+div#js-licensing {
+  display: none;
+}
